@@ -1,1 +1,1 @@
-# c15-45-ft-python-react
+# Servicio de gestion de pequeñas e-commerce
