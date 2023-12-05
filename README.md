@@ -3,6 +3,8 @@
 
 **Servicio de compras  y gestion de tiendas virtuales para micro-empresarios**
 
+![](banner01.jpg)
+
 ## Instrucciones para probar en local
 En este punto puedes abrir un IDE de confianza como Visual Studio o Pycharm.
 
@@ -77,5 +79,25 @@ Tambien se puede agregar dependencias con el comando
 ````commandline
 poetry add
 ````
+5. Probar aplicativo
+
+Dentro de la carpeta ``NoStoreBehind`` realiza lo siguiente:
+
+a. Ejecuta el comando:
+
+````commandline
+py manage.py runserver
+````
+Si se presenta un error referente a migración ejecuta previamente este comando:
+
+````commandline
+py manage.py migrate
+````
+b. Accede en local
+
+Digita en el navegador http://127.0.0.1:8000/index
+o, http://localhost:8000/index
+
+* _El número de puerto (8000) puede variar_ 
 
 
