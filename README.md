@@ -3,7 +3,10 @@
 
 **Servicio de compras  y gestion de tiendas virtuales para micro-empresarios**
 
-![](banner01.jpg)
+<!-- ![](banner01.jpg) -->
+<div>
+  <img src="banner01.jpg" style="width:auto;height: 25rem;">
+</div>
 
 ## Instrucciones para probar en local
 En este punto puedes abrir un IDE de confianza como Visual Studio o Pycharm.
