@@ -1,0 +1,14 @@
+[tool.poetry]
+name = "nsb-commerce"
+version = "0.1.0"
+description = "Un e-commerce para micro-empresarios"
+authors = ["c15-45-ft-python-react"]
+
+[tool.poetry.dependencies]
+python = "^3.11"
+django = "^4.2.0"
+
+[tool.poetry.dev-dependencies]
+pytest = "^7.4.3"
+black = "^21.12b0"
+isort = "^5.9.3"
