@@ -23,7 +23,7 @@ class Shop(models.Model):
     adress_zip = models.CharField(max_length=8)
     adress_state = models.CharField(max_length=16)
     adress_country = models.CharField(max_length=16)
-    category = models.ForeignKey(Category,related_name='shops',on_delete=models.PROTECT)
+    category = models.ForeignKey(Category,related_name='shops',on_delete=models.PROTECT, null=True)
 
 class ProductImages(models.Model):
     image = models.CharField(max_length=16)
@@ -35,11 +35,11 @@ class ProductImages(models.Model):
     # para esto se tendrian que hacer unos pequeños ajustes en settings y crear una carpeta media ("es facil")
     # imagen = models.ImageField(upload_to='comercios/')
     
-    shop = models.ForeignKey(Shop,related_name='images',on_delete=models.PROTECT)
+    shop = models.ForeignKey(Shop,related_name='images',on_delete=models.PROTECT, null=True)
 
 
 class Product(models.Model):
-    shop = models.ForeignKey(Shop, on_delete=models.PROTECT, related_name='products')
+    shop = models.ForeignKey(Shop, on_delete=models.PROTECT, related_name='products', null=True)
     titulo = models.CharField(max_length=32)
     description = models.TextField(blank=True)
     stock = models.IntegerField(default=0)
