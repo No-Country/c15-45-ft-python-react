@@ -50,7 +50,7 @@ class OrderRequest(models.Model):
 
 class ShoppingCart(models.Model):
     user = models.OneToOneField(User, on_delete=models.PROTECT, related_name='shopping_cart', primary_key=True)
-    timestamp = models.DateTimeField(auto_now_add=True)
+    # timestamp = models.DateTimeField(auto_now_add=True)
     # subtotal = models.IntegerField(default=0)
     orders = models.ManyToManyField(OrderRequest, related_name='shopping_cart')
     
@@ -62,4 +62,4 @@ class Purchase(models.Model):
     timestamp = models.DateTimeField(auto_now_add=True)
     total = models.IntegerField()
     user = models.ForeignKey(User, on_delete=models.PROTECT, related_name='purchases')
-    shopping_cart = models.OneToOneField(ShoppingCart, on_delete=models.PROTECT, primary_key=True)
+    orders = models.ManyToManyField(OrderRequest, related_name='purchases')
