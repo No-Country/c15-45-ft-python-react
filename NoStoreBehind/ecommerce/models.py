@@ -17,26 +17,13 @@ class Shop(models.Model):
     user = models.OneToOneField(User, on_delete=models.PROTECT, related_name='shop', primary_key=True)
     description = models.TextField(blank=True)
     shop_name = models.CharField(max_length=16)
-    #logo = models.ImageField()
+    logo = models.ImageField(null=True, blank=True, upload_to="images/shops")
     adress_street = models.CharField(max_length=32)
     adress_number = models.CharField(max_length=8)
     adress_zip = models.CharField(max_length=8)
     adress_state = models.CharField(max_length=16)
     adress_country = models.CharField(max_length=16)
     category = models.ForeignKey(Category,related_name='shops',on_delete=models.PROTECT, null=True)
-
-class ProductImages(models.Model):
-    image = models.CharField(max_length=16)
-    
-    # se podrian añadir las imagenes mediante url de la siguiente manera}
-    # image_url = models.URLField()
-    
-    # o el usuario las podria subir a la pagina y estas se guardarian en una carpeta media en la db solo la url a esta 
-    # para esto se tendrian que hacer unos pequeños ajustes en settings y crear una carpeta media ("es facil")
-    # imagen = models.ImageField(upload_to='comercios/')
-    
-    shop = models.ForeignKey(Shop,related_name='images',on_delete=models.PROTECT, null=True)
-
 
 class Product(models.Model):
     shop = models.ForeignKey(Shop, on_delete=models.PROTECT, related_name='products', null=True)
@@ -46,8 +33,11 @@ class Product(models.Model):
     price = models.IntegerField(default=0)
     sells = models.IntegerField(default=0)
     category = models.ManyToManyField(Category)
-    images = models.ManyToManyField(ProductImages)
 
+class ProductImages(models.Model):
+    image = models.ImageField(null=True, blank=True, upload_to="images/products")
+    product = models.ForeignKey(Product, on_delete=models.CASCADE, related_name='product_images', null=True)
+    
 class OrderRequest(models.Model):
     producto = models.ForeignKey(Product, on_delete=models.PROTECT, related_name='orders')
     quantity = models.IntegerField(default=1)
