@@ -10,6 +10,9 @@ class User(AbstractUser):
     adress_state = models.CharField(max_length=16)
     adress_country = models.CharField(max_length=16)
 
+class Category(models.Model):
+    name = models.CharField(max_length=16,primary_key=True)
+
 class Shop(models.Model):
     user = models.OneToOneField(User, on_delete=models.PROTECT, related_name='shop', primary_key=True)
     description = models.TextField(blank=True)
@@ -20,12 +23,19 @@ class Shop(models.Model):
     adress_zip = models.CharField(max_length=8)
     adress_state = models.CharField(max_length=16)
     adress_country = models.CharField(max_length=16)
-
-class Category(models.Model):
-    name = models.CharField(max_length=16)
+    category = models.ForeignKey(Category,related_name='shops',on_delete=models.PROTECT)
 
 class ProductImages(models.Model):
     image = models.CharField(max_length=16)
+    
+    # se podrian añadir las imagenes mediante url de la siguiente manera}
+    # image_url = models.URLField()
+    
+    # o el usuario las podria subir a la pagina y estas se guardarian en una carpeta media en la db solo la url a esta 
+    # para esto se tendrian que hacer unos pequeños ajustes en settings y crear una carpeta media ("es facil")
+    # imagen = models.ImageField(upload_to='comercios/')
+    
+    shop = models.ForeignKey(Shop,related_name='images',on_delete=models.PROTECT)
 
 
 class Product(models.Model):
