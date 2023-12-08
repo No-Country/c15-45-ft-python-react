@@ -24,9 +24,9 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = 'django-insecure-edpt^op&avq_=x@xox^185a9uj2#xu$u8t@8szvai0^klp+0b)'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['NoStoreBehind.pythonanywhere.com', 'localhost', '127.0.0.1']
 
 
 # Application definition
@@ -118,9 +118,13 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/4.2/howto/static-files/
 STATIC_URL = 'static/'
+<<<<<<< HEAD
 MEDIA_ROOT = '/media/'
 
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+=======
+STATIC_ROOT = os.path.join(BASE_DIR, 'static')
+>>>>>>> develop
 
 STATICFILES = (
     os.path.join(BASE_DIR, 'static'),
@@ -129,3 +133,14 @@ STATICFILES = (
 # https://docs.djangoproject.com/en/4.2/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+MEDIA_ROOT = '/media/'
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+
+try:
+    # Importar la configuración de desarrollo cuando el archivo esté
+    # disponible.
+    from settings_dev import *
+except ModuleNotFoundError:
+    # Si no está disponible, es porque se está corriendo en producción.
+    pass
