@@ -42,18 +42,15 @@ class OrderRequest(models.Model):
     user = models.ForeignKey(User,on_delete=models.PROTECT,related_name='orders')
     producto = models.ForeignKey(Product, on_delete=models.PROTECT, related_name='orders')
     quantity = models.IntegerField(default=1)
-    price = models.IntegerField()
-    
+
     def total(self):
-        return self.quantity * self.price
+        return self.quantity * self.producto.price
 
 
 class ShoppingCart(models.Model):
     user = models.OneToOneField(User, on_delete=models.PROTECT, related_name='shopping_cart', primary_key=True)
-    # timestamp = models.DateTimeField(auto_now_add=True)
-    # subtotal = models.IntegerField(default=0)
     orders = models.ManyToManyField(OrderRequest, related_name='shopping_cart')
-    
+   
     def get_subtotal(self):
         return sum([order.total() for order in self.orders.all()])
 
