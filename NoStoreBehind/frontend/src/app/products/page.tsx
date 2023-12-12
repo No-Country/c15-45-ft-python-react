@@ -34,7 +34,7 @@ const products = [
   },
 ];
 
-export default function HomePage() {
+export default function ProductsPage() {
   return (
     <main className="relative flex h-[calc(100vh-68px)] flex-col gap-2.5 px-4 pb-7">
       <div className="flex items-center justify-between">
@@ -44,7 +44,7 @@ export default function HomePage() {
       <section className="h-full w-full">
         {products.map((product) => (
           <Link
-            href={product.id.toString()}
+            href={`/products/${product.id}`}
             key={product.id}
             className="drop-shadow-lg"
           >
