@@ -1,5 +1,5 @@
 [tool.poetry]
-name = "env"
+name = "NoStoreBehind"
 version = "0.1.0"
 description = "Un e-commerce para micro-empresarios"
 authors = ["c15-45-ft-python-react"]
