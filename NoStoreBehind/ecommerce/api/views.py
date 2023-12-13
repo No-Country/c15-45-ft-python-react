@@ -1,6 +1,26 @@
-from rest_framework import generics
-from .models import *
+from rest_framework import generics, permissions
+from django.contrib.auth import authenticate, login, logout
+from rest_framework.response import Response
+from rest_framework.views import APIView
+from ..models import *
 from .serializers import *
+
+class LoginView(APIView):
+    def post(self, request, format=None):
+        username = request.data.get("username")
+        password = request.data.get("password")
+        user = authenticate(username=username, password=password)
+        if user is not None:
+            login(request, user)
+            return Response(UserSerializer(user).data)
+        else:
+            return Response({"error": "Wrong Credentials"}, status=400)
+class LogoutView(APIView):
+    def post(self, request, format=None):
+        logout(request)
+        return Response({"success": "Successfully logged out"})
+
+
 
 class UserListCreateView(generics.ListCreateAPIView):
     queryset = User.objects.all()

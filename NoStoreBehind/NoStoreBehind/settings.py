@@ -24,7 +24,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = 'django-insecure-edpt^op&avq_=x@xox^185a9uj2#xu$u8t@8szvai0^klp+0b)'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = False
+DEBUG = True
 
 ALLOWED_HOSTS = [
     'NoStoreBehind.pythonanywhere.com',
@@ -38,6 +38,7 @@ ALLOWED_HOSTS = [
 INSTALLED_APPS = [
     'corsheaders',
     'rest_framework',
+    'rest_framework.authtoken',
     'ecommerce',
     'django.contrib.admin',
     'django.contrib.auth',
@@ -98,6 +99,8 @@ CORS_ORIGIN_WHITELIST = [
     'http://127.0.0.1:3000',
     #'servidor.frontend.com'
 ]
+
+CORS_ALLOWED_ORIGINS = ['http://localhost:5173']
 
 CSRF_TRUSTED_ORIGINS = [
     'http://localhost:3000',
