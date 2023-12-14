@@ -178,7 +178,7 @@ SIMPLE_JWT = {
     'AUTH_TOKEN_CLASSES': (
         'rest_framework_simplejwt.tokens.AccessToken',
     )
-}
+} 
 
 try:
     # Importar la configuración de desarrollo cuando el archivo esté
