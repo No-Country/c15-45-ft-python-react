@@ -9,6 +9,7 @@ class User(AbstractUser):
     adress_zip = models.CharField(max_length=8)
     adress_state = models.CharField(max_length=16)
     adress_country = models.CharField(max_length=16)
+    is_active = models.BooleanField(default=True)
 
 class Category(models.Model):
     name = models.CharField(max_length=16,primary_key=True)

@@ -10,15 +10,15 @@ from .views import (
     PurchaseListCreateView, PurchaseDetailView,
 )
 urlpatterns = [
-    #Login Lougout
+    #Login Logout
     path('login/', LoginView.as_view(), name='login'),
     path('logout/', LogoutView.as_view(), name='logout'),
     # Rutas para las vistas de User
-    path('users/', UserListCreateView.as_view(), name='user-list-create'),
-    path('users/<int:pk>/', UserDetailView.as_view(), name='user-detail'),
+    path('register/', UserListCreateView.as_view(), name='register'),
+    path('user-profile/', UserDetailView.as_view(), name='user-profile'),
     # Rutas para las vistas de Category
     path('categories/', CategoryListCreateView.as_view(), name='category-list-create'),
-    path('categories/<int:pk>/', CategoryDetailView.as_view(), name='category-detail'),
+    path('categories/<str:pk>/', CategoryDetailView.as_view(), name='category-detail'),
     # Rutas para las vistas de Shop
     path('shops/', ShopListCreateView.as_view(), name='shop-list-create'),
     path('shops/<int:pk>/', ShopDetailView.as_view(), name='shop-detail'),
