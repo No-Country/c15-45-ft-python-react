@@ -54,3 +54,23 @@ class PurchaseSerializer(serializers.ModelSerializer):
     class Meta:
         model = Purchase
         fields = '__all__'
+
+    def create(self, validated_data):
+        # Obtén el carrito de compras del usuario
+        shopping_cart = ShoppingCart.objects.get(user=self.context['request'].user)
+
+        # Crea una nueva compra
+        purchase = Purchase.objects.create(**validated_data)
+
+        # Añade las órdenes del carrito de compras a la compra
+        for order in shopping_cart.orders.all():
+            purchase.orders.add(order)
+
+        purchase.total = shopping_cart.get_subtotal()
+        
+        purchase.save()
+        
+        # Elimina las órdenes del carrito de compras
+        shopping_cart.orders.clear()
+
+        return purchase
