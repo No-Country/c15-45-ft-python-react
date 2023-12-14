@@ -22,12 +22,22 @@ class ProductImagesSerializer(serializers.ModelSerializer):
         fields = '__all__'
 
 class ProductSerializer(serializers.ModelSerializer):
-    category = CategorySerializer(many=True)  # Se usa el serializador de Category para representar las relaciones
-    product_images = ProductImagesSerializer(many=True, read_only=True)
+    #category = CategorySerializer(many=True)  # Se usa el serializador de Category para representar las relaciones
+    #product_images = ProductImagesSerializer(many=True, read_only=True)
 
     class Meta:
         model = Product
         fields = '__all__'
+    
+    def create(self, validated_data):
+        categories = validated_data.pop('category')
+        product_images = []
+        instance = Product.objects.create(**validated_data)
+        for category in categories:
+            instance.category.add(category)
+        for image in product_images:
+            instance.product_images.add(image)
+        return instance
 
 class OrderRequestSerializer(serializers.ModelSerializer):
     class Meta:

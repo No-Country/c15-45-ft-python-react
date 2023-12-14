@@ -12,7 +12,7 @@ class User(AbstractUser):
     is_active = models.BooleanField(default=True)
 
 class Category(models.Model):
-    name = models.CharField(max_length=16,primary_key=True)
+    name = models.CharField(max_length=16, primary_key=True)
 
 class Shop(models.Model):
     user = models.OneToOneField(User, on_delete=models.PROTECT, related_name='shop', primary_key=True)
@@ -33,7 +33,7 @@ class Product(models.Model):
     stock = models.IntegerField(default=0)
     price = models.IntegerField(default=0)
     sells = models.IntegerField(default=0)
-    category = models.ManyToManyField(Category)
+    category = models.ManyToManyField(Category, null=True)
 
 class ProductImages(models.Model):
     image = models.ImageField(null=True, blank=True, upload_to="images/products")
