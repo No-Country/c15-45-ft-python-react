@@ -29,7 +29,7 @@ urlpatterns = [
     path('orderrequests/', OrderRequestListCreateView.as_view(), name='orderrequest-list-create'),
     path('orderrequests/<int:pk>/', OrderRequestDetailView.as_view(), name='orderrequest-detail'),
     # Ruta para la vista de ShoppingCart
-    path('shoppingcart/', ShoppingCartDetailView.as_view(), name='shoppingcart-detail'),
+    path('shoppingcart/<int:pk>', ShoppingCartDetailView.as_view(), name='shoppingcart-detail'),
     # Rutas para las vistas de Purchase
     path('purchases/', PurchaseListCreateView.as_view(), name='purchase-list-create'),
     path('purchases/<int:pk>/', PurchaseDetailView.as_view(), name='purchase-detail'),
