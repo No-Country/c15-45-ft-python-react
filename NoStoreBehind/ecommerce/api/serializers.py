@@ -22,9 +22,6 @@ class ProductImagesSerializer(serializers.ModelSerializer):
         fields = '__all__'
 
 class ProductSerializer(serializers.ModelSerializer):
-    #category = CategorySerializer(many=True)  # Se usa el serializador de Category para representar las relaciones
-    #product_images = ProductImagesSerializer(many=True, read_only=True)
-
     class Meta:
         model = Product
         fields = '__all__'
