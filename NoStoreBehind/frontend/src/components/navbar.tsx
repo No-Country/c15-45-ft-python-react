@@ -6,7 +6,7 @@ import { usePathname } from "next/navigation";
 
 function Navbar() {
   const pathname = usePathname();
-  if (pathname === "/login" || pathname === "/signup") return null;
+  if (pathname.startsWith("/auth")) return null;
   return (
     <nav>
       {/* menu icon */}
