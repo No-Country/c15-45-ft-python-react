@@ -23,7 +23,7 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
-      <body className={`font-sans ${poppins.variable} container bg-slate-100`}>
+      <body className={`font-sans ${poppins.variable}bg-slate-100`}>
         <AuthProvider>
           <Navbar />
           {children}
