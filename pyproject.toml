@@ -10,7 +10,6 @@ django = "^4.2.0"
 pillow = "^10.1.0"
 djangorestframework = "^3.14.0"
 django-cors-headers = "^4.3.1"
-rest-framework-simplejwt = "^0.0.2"
 djangorestframework-simplejwt = "^5.3.1"
 
 [tool.poetry.dev-dependencies]
