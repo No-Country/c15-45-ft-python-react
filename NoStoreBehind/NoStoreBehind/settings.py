@@ -14,6 +14,10 @@ from pathlib import Path
 import os
 from datetime import timedelta
 
+# dotenv installed but not taken
+# from dotenv import load_dotenv
+# load_dotenv()
+
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
@@ -22,6 +26,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/4.2/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
+# SECRET_KEY = os.environ.get("SECRET_KEY")
 SECRET_KEY = 'django-insecure-edpt^op&avq_=x@xox^185a9uj2#xu$u8t@8szvai0^klp+0b)'
 
 # SECURITY WARNING: don't run with debug turned on in production!
@@ -146,19 +151,28 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/4.2/howto/static-files/
 
+# using a folder structure like:
+# media/    dist/static
+# Verify this structure to frontend integration
+
 STATIC_URL = 'static/'
 STATIC_ROOT = os.path.join(BASE_DIR, 'static')
 
 STATICFILES_DIR = (
     os.path.join(BASE_DIR, 'static'),
 )
+
+# STATICFILES_DIRS = [
+#     os.path.join(BASE_DIR, 'dist/static'),
+# ]
+
+MEDIA_URL = 'media/'
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.2/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
-
-MEDIA_URL = '/media/'
-MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 
 REST_FRAMEWORK = {
     'DEFAULT_PERMISSION_CLASSES': [
@@ -175,9 +189,31 @@ SIMPLE_JWT = {
     'REFRESH_TOKEN_LIFETIME': timedelta(days=30),
     'ROTATE_REFRESH_TOKENS':True,
     'BLACKLIST_AFTER_ROTATION': True,
+    'UPDATE_LAST_ROTATION': True,
+    'UPDATE_LAST_LOGIN': False,
     'AUTH_TOKEN_CLASSES': (
         'rest_framework_simplejwt.tokens.AccessToken',
     )
+
+    'ALGORITHM': 'HS256',
+
+    'VERIFYING_KEY': SECRET_KEY,
+    'AUDIENCE': None,
+    'ISSUER': None,
+    'JWK_URL': None,
+    'LEEWAY': 0,
+
+    'AUTH_HEADER_TYPES': ('Bearer',),
+    'AUTH_HEADER_NAME': 'HTTP_AUTHORIZATION',
+    'USER_ID_FIELD': 'id',
+    'USER_ID_CLAIM': 'user_id',
+    'USER_AUTHENTICATION_RULE': 'rest_framework_simplejwt.authentication.default_user_authentication',
+
+    'AUTH_TOKEN_CLASSES': ('rest_framework_simplejwt.tokens.AccessToken',),
+    'TOKEN_TYPE_CLAIM': 'token_type',
+    'TOKEN_USER_CLASS': 'rest_framework_simplejwt.models.TokenUser',
+
+    'JTI_CLAIM': 'jti',
 } 
 
 try:
@@ -187,3 +223,4 @@ try:
 except ModuleNotFoundError:
     # Si no está disponible, es porque se está corriendo en producción.
     pass
+
