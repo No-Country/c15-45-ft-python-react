@@ -44,6 +44,16 @@ fi
 if [[ $respuesta == "f" ]]; then
   echo -e ">>> Preparate. Levantando proyecto Frontend <<<\n\n"
   cd frontend
+  if [ -d "frontend/node_modules" ]; then
+    echo "node_modules verificado."
+  else
+    # Directorio node_modules no existe
+    echo -e "node_modules no existe. \nSe instalarán dependencias."
+    # cd frontend
+    npm i
+  fi
+  sleep 2
+  # cd frontend
   npm run dev
 fi
 
