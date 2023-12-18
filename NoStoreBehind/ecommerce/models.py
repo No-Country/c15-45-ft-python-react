@@ -33,7 +33,7 @@ class Product(models.Model):
     stock = models.IntegerField(default=0)
     price = models.IntegerField(default=0)
     sells = models.IntegerField(default=0)
-    category = models.ManyToManyField(Category, null=True)
+    category = models.ManyToManyField(Category)
 
 class ProductImages(models.Model):
     image = models.ImageField(null=True, blank=True, upload_to="images/products")
@@ -58,6 +58,6 @@ class ShoppingCart(models.Model):
 
 class Purchase(models.Model):
     timestamp = models.DateTimeField(auto_now_add=True)
-    total = models.IntegerField()
+    total = models.IntegerField(null=True)
     user = models.ForeignKey(User, on_delete=models.PROTECT, related_name='purchases')
     orders = models.ManyToManyField(OrderRequest, related_name='purchases')

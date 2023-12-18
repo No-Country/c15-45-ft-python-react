@@ -28,18 +28,28 @@ class ProductSerializer(serializers.ModelSerializer):
     
     def create(self, validated_data):
         categories = validated_data.pop('category')
-        product_images = []
+        product_images = validated_data.pop('product_images')
         instance = Product.objects.create(**validated_data)
         for category in categories:
             instance.category.add(category)
-        for image in product_images:
-            instance.product_images.add(image)
+        if len(product_images) > 0:
+            for image in product_images:
+                instance.product_images.add(image)
         return instance
 
 class OrderRequestSerializer(serializers.ModelSerializer):
     class Meta:
         model = OrderRequest
         fields = '__all__'
+    def create(self, validated_data):
+        order_request = OrderRequest.objects.create(**validated_data)
+        order_request.save()
+
+        shopping_cart = ShoppingCart.objects.get(user=self.context['request'].user)
+        shopping_cart.orders.add(order_request)
+        shopping_cart.save()
+        return order_request
+
 
 class ShoppingCartSerializer(serializers.ModelSerializer):
     orders = OrderRequestSerializer(many=True, read_only=True)
