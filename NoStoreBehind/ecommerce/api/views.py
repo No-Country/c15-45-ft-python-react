@@ -1,12 +1,13 @@
 from rest_framework import generics, status
 from rest_framework.permissions import IsAuthenticated, AllowAny
-from rest_framework_simplejwt.tokens import RefreshToken, AccessToken
+from rest_framework_simplejwt.tokens import RefreshToken
 from rest_framework.response import Response
-from rest_framework import status
+from rest_framework.views import APIView
 from django.contrib.auth import login, logout, get_user_model, authenticate
+from django.contrib.auth.hashers import make_password
 from ..models import *
 from .serializers import *
-from rest_framework.views import APIView
+
 
 class LoginView(APIView):
     permission_classes = [AllowAny]
@@ -17,13 +18,21 @@ class LoginView(APIView):
         user = authenticate(username=username, password=password)
 
         if user is not None and user.is_active:
-            # Genera un token de acceso
-            access_token = AccessToken.for_user(user)
 
-            # Retorna el token de acceso en la respuesta
-            return Response({"access_token": str(access_token)}, status=status.HTTP_200_OK)
+            refresh = RefreshToken.for_user(user)
+            access_token = str(refresh.access_token)
+
+            # Utilizar el serializer del usuario para obtener los datos del usuario
+            user_serializer = UserSerializer(user, context={'request': request})
+
+            return Response({
+                'user': user_serializer.data,
+                'access_token': access_token,
+                'refresh_token': str(refresh),
+            }, status=status.HTTP_200_OK)
         else:
-            return Response({"error": "Wrong Credentials"}, status=status.HTTP_401_UNAUTHORIZED)
+            return Response({
+                "error": "Wrong Credentials"}, status=status.HTTP_401_UNAUTHORIZED)
 
 class LogoutView(generics.GenericAPIView):
     permission_classes = [IsAuthenticated]
@@ -40,7 +49,10 @@ class UserListCreateView(generics.ListCreateAPIView):
     def post(self, request, *args, **kwargs):
         serializer = self.get_serializer(data=request.data)
         serializer.is_valid(raise_exception=True)
+        # Crear el usuario y asignar la contraseña de forma segura
         user = serializer.save()
+        user.set_password(request.data['password'])
+        user.save()
 
         login(request, user)
 
