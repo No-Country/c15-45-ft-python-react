@@ -31,7 +31,7 @@ class LogoutView(generics.GenericAPIView):
     def post(self, request, *args, **kwargs):
         logout(request)
         return Response(status=status.HTTP_200_OK)
-
+ 
 class UserListCreateView(generics.ListCreateAPIView):
     queryset = User.objects.all()
     serializer_class = UserSerializer
@@ -46,7 +46,9 @@ class UserListCreateView(generics.ListCreateAPIView):
 
         refresh = RefreshToken.for_user(user)
         access_token = str(refresh.access_token)
-
+        #Create a shopping cart and asign it to the created user
+        shopping_cart = ShoppingCart(user=user)
+        shopping_cart.save()
         return Response({
             'user': UserSerializer(user, context=self.get_serializer_context()).data,
             'access_token': access_token,
@@ -97,12 +99,28 @@ class OrderRequestDetailView(generics.RetrieveUpdateDestroyAPIView):
     serializer_class = OrderRequestSerializer
 
 class ShoppingCartDetailView(generics.RetrieveUpdateAPIView):
+    permission_classes = [IsAuthenticated]
+
     queryset = ShoppingCart.objects.all()
     serializer_class = ShoppingCartSerializer
+    def get(self, request):
+            user = self.request.user
+            shopping_cart = user.shopping_cart
+            return Response({
+                "shopping_cart":ShoppingCartSerializer(shopping_cart, context=self.get_serializer_context()).data
+                })
 
 class PurchaseListCreateView(generics.ListCreateAPIView):
     queryset = Purchase.objects.all()
     serializer_class = PurchaseSerializer
+
+    def get(self, request):
+        user = self.request.user
+        purchases = Purchase.objects.get(user=user)
+        return Response({
+            "purchases": PurchaseSerializer(purchases, context=self.get_serializer_context()).data
+        })
+
 
 class PurchaseDetailView(generics.RetrieveAPIView):
     queryset = Purchase.objects.all()
