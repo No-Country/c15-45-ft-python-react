@@ -3,6 +3,7 @@
 # Iniciar entorno virtual
 echo -e "********** Iniciando entorno **********\n"
 source nsb-commerce-venv/Scripts/activate
+which python
 sleep 2
 
 # Instalar dependencias
@@ -37,7 +38,8 @@ done
 
 # Ejecutar acción correspondiente según respuesta de usuario
 if [[ $respuesta == "n" ]]; then
-  echo -e "No se levantarán proyectos"
+  echo -e "No se levantarán proyectos. \nInicie el entorno virtual manualmente. \n"
+  echo -e ">>> source nsb-commerce-venv/Scripts/activate"
   exit
 fi
 
