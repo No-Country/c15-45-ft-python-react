@@ -26,7 +26,7 @@ urlpatterns = [
     # Rutas para las vistas de Product
     path('products/', ProductListCreateView.as_view(), name='product-list-create'),
     path('products/<int:pk>/', ProductDetailView.as_view(), name='product-detail'),
-    path('products-images-add/<int:product_pk>/', ProductImagesListCreateView.as_view(), name='add-product-images'),
+    path('products-images/', ProductImagesListCreateView.as_view(), name='add-product-images'),
     # Rutas para las vistas de OrderRequest
     path('orderrequests/', OrderRequestListCreateView.as_view(), name='orderrequest-list-create'),
     path('orderrequests/<int:pk>/', OrderRequestDetailView.as_view(), name='orderrequest-detail'),

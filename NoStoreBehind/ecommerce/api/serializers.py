@@ -60,10 +60,6 @@ class CategorySerializer(serializers.ModelSerializer):
         model = Category
         fields = '__all__'
 
-class ShopSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = Shop
-        fields = '__all__'
 
 class ProductImagesSerializer(serializers.ModelSerializer):
     class Meta:
@@ -71,6 +67,7 @@ class ProductImagesSerializer(serializers.ModelSerializer):
         fields = '__all__'
 
 class ProductSerializer(serializers.ModelSerializer):
+    product_images = ProductImagesSerializer(many=True, read_only=True)
     class Meta:
         model = Product
         fields = '__all__'
@@ -78,14 +75,17 @@ class ProductSerializer(serializers.ModelSerializer):
     def create(self, validated_data):
         print(validated_data)
         categories = validated_data.pop('category')
-        product_images = validated_data.pop('product_images')
         instance = Product.objects.create(**validated_data)
         for category in categories:
             instance.category.add(category)
-        if len(product_images) > 0:
-            for image in product_images:
-                ProductImages(product=instance, image=image)
         return instance
+
+class ShopSerializer(serializers.ModelSerializer):
+    products = ProductSerializer(many=True, read_only=True)
+    class Meta:
+        model = Shop
+        fields = '__all__'
+
 
 class OrderRequestSerializer(serializers.ModelSerializer):
     class Meta:

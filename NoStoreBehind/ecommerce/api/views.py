@@ -127,23 +127,33 @@ class ShoppingCartDetailView(generics.RetrieveUpdateAPIView):
     queryset = ShoppingCart.objects.all()
     serializer_class = ShoppingCartSerializer
     def get(self, request):
-            user = self.request.user
-            shopping_cart = user.shopping_cart
-            return Response({
-                "shopping_cart":ShoppingCartSerializer(shopping_cart, context=self.get_serializer_context()).data
+            
+            try:
+                user = self.request.user
+                shopping_cart = user.shopping_cart
+                return Response({
+                    "shopping_cart":ShoppingCartSerializer(shopping_cart, context=self.get_serializer_context()).data
                 })
+            except:
+                return Response({
+                    "shopping cart": "The user doesnt have a shopping cart"
+                }, status=status.HTTP_404_NOT_FOUND)
 
 class PurchaseListCreateView(generics.ListCreateAPIView):
     queryset = Purchase.objects.all()
     serializer_class = PurchaseSerializer
 
     def get(self, request):
-        user = self.request.user
-        purchases = Purchase.objects.get(user=user)
-        return Response({
-            "purchases": PurchaseSerializer(purchases, context=self.get_serializer_context()).data
-        })
-
+        try:
+            user = self.request.user
+            purchases = Purchase.objects.get(user=user)
+            return Response({
+                "purchases": PurchaseSerializer(purchases, context=self.get_serializer_context()).data
+            })
+        except:
+            return Response({
+                "purchases": "There are not purchases yet"
+            }, status=status.HTTP_404_NOT_FOUND)
 
 class PurchaseDetailView(generics.RetrieveAPIView):
     queryset = Purchase.objects.all()
