@@ -1,6 +1,7 @@
 import ButtonToggleView from "@/components/button-see-stores";
 import Filters from "@/components/filters";
 import StoreCard from "@/components/store-card";
+import Link from "next/link";
 
 const products = [
   {
@@ -35,21 +36,29 @@ const products = [
 
 export default function StoresPage() {
   return (
-    <main className="relative flex h-[calc(100vh-68px)] flex-col gap-2.5 pb-7">
+    <main className="relative mx-auto flex h-[calc(100vh-68px)] flex-col gap-2.5 px-4 pb-7">
       <div className="flex items-center justify-between">
         <Filters />
         <ButtonToggleView route="products" />
       </div>
-      <section className="h-full w-full">
-        {products.map((product) => (
-          <article key={product.id} className="py-1 drop-shadow-lg">
-            <StoreCard
-              name={product.name}
-              description={product.description}
-              productsLength={product.productsLength}
-            />
-          </article>
-        ))}
+      <section className="pb-5">
+        <div className="flex flex-wrap items-center">
+          {products.map((product) => (
+            <Link
+              href={`/products/${product.id}`}
+              key={product.id}
+              className="w-full drop-shadow-lg md:w-1/2 lg:w-1/4"
+            >
+              <article key={product.id} className="p-1">
+                <StoreCard
+                  name={product.name}
+                  description={product.description}
+                  productsLength={product.productsLength}
+                />
+              </article>
+            </Link>
+          ))}
+        </div>
       </section>
     </main>
   );

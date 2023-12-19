@@ -1,4 +1,5 @@
 import Navbar from "@/components/navbar";
+import AuthProvider from "@/providers/auth-provider";
 import "@/styles/globals.css";
 
 import { Poppins } from "next/font/google";
@@ -22,9 +23,11 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
-      <body className={`font-sans ${poppins.variable} bg-slate-100`}>
-        <Navbar />
-        {children}
+      <body className={`font-sans ${poppins.variable}bg-slate-100`}>
+        <AuthProvider>
+          <Navbar />
+          {children}
+        </AuthProvider>
       </body>
     </html>
   );
