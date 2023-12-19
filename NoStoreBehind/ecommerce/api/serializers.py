@@ -55,6 +55,11 @@ class UserSerializer(serializers.ModelSerializer):
         model = User
         fields = '__all__'
 
+class UserInfoSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = User
+        fields = ["id","username","email","first_name","last_name","adress_street","adress_number","adress_zip","adress_state","adress_country"]
+
 class CategorySerializer(serializers.ModelSerializer):
     class Meta:
         model = Category

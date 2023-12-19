@@ -42,9 +42,11 @@ class LogoutView(generics.GenericAPIView):
         return Response(status=status.HTTP_200_OK)
  
 class UserListCreateView(generics.ListCreateAPIView):
-    queryset = User.objects.all()
     serializer_class = UserSerializer
     permission_classes = [AllowAny]
+    
+    def get(self, request):
+        return Response(status=status.HTTP_405_METHOD_NOT_ALLOWED)
 
     def post(self, request, *args, **kwargs):
         serializer = self.get_serializer(data=request.data)
@@ -68,7 +70,7 @@ class UserListCreateView(generics.ListCreateAPIView):
         }, status=status.HTTP_201_CREATED)
 
 class UserDetailView(generics.RetrieveUpdateDestroyAPIView):
-    serializer_class = UserSerializer
+    serializer_class = UserInfoSerializer
     permission_classes = [IsAuthenticated]
 
     def get_queryset(self):

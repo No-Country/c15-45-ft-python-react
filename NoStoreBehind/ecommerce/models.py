@@ -58,6 +58,6 @@ class ShoppingCart(models.Model):
 
 class Purchase(models.Model):
     timestamp = models.DateTimeField(auto_now_add=True)
-    total = models.IntegerField(null=True)
+    total = models.IntegerField(null=True,blank=True)
     user = models.ForeignKey(User, on_delete=models.PROTECT, related_name='purchases')
-    orders = models.ManyToManyField(OrderRequest, related_name='purchases')
+    orders = models.ManyToManyField(OrderRequest, related_name='purchases',null=True,blank=True)
