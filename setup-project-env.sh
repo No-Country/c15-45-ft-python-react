@@ -42,9 +42,12 @@ if [[ $respuesta == "n" ]]; then
 fi
 
 if [[ $respuesta == "f" ]]; then
-  echo -e ">>> Preparate. Levantando proyecto Frontend <<<\n\n"
+  # Desactivar entorno virtual
+  deactivate
+  echo ">>> Preparate. Levantando proyecto Frontend <<<"
+  echo -e "\n"
   cd frontend
-  if [ -d "frontend/node_modules" ]; then
+  if [ -d "node_modules" ]; then
     echo "node_modules verificado."
   else
     # Directorio node_modules no existe
