@@ -7,7 +7,7 @@ from django.contrib.auth import login, logout, get_user_model, authenticate
 from django.contrib.auth.hashers import make_password
 from ..models import *
 from .serializers import *
-
+from rest_framework.parsers import MultiPartParser, FormParser
 
 class LoginView(APIView):
     permission_classes = [AllowAny]
@@ -101,6 +101,17 @@ class ProductListCreateView(generics.ListCreateAPIView):
 class ProductDetailView(generics.RetrieveUpdateDestroyAPIView):
     queryset = Product.objects.all()
     serializer_class = ProductSerializer
+
+class ProductImagesListCreateView(generics.ListCreateAPIView):
+    queryset = ProductImages.objects.all()
+    parser_classes = (MultiPartParser, FormParser)
+    serializer_class = ProductImagesSerializer
+    
+
+class ProductImagesDetailView(generics.RetrieveUpdateDestroyAPIView):
+    queryset = ProductImages.objects.all()
+    parser_classes = (MultiPartParser, FormParser)
+    serializer_class = ProductImagesSerializer
 
 class OrderRequestListCreateView(generics.ListCreateAPIView):
     queryset = OrderRequest.objects.all()
