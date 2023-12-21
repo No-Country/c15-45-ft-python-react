@@ -16,6 +16,7 @@ function ProductCard({
   available,
   sales,
   description,
+  images,
 }: ProductCardProps) {
   const avalaible = available ? (
     <p className="text-sm text-green-600">Disponible</p>
@@ -26,7 +27,7 @@ function ProductCard({
     <div className="flex w-full flex-col gap-2.5 rounded-lg bg-white p-3 ">
       <div className="relative h-36 w-full">
         <Image
-          src="https://upload.wikimedia.org/wikipedia/commons/thumb/3/3f/Placeholder_view_vector.svg/310px-Placeholder_view_vector.svg.png"
+          src={images[0].image}
           fill
           className="h-full w-full rounded-md object-cover object-center"
           alt="Card Image"
