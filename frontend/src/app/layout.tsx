@@ -3,7 +3,7 @@ import AuthProvider from "@/providers/auth-provider";
 import "@/styles/globals.css";
 
 import { Poppins } from "next/font/google";
-
+import { cn } from "@/lib/utils";
 const poppins = Poppins({
   subsets: ["latin"],
   variable: "--font-sans",

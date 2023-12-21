@@ -10,6 +10,8 @@ const products = [
     price: 100,
     available: true,
     sales: 10,
+    description:
+      "Lorem ipsum dolor sit amet consectetur adipisicing elit. Expedita earum obcaecati reprehenderit ipsam modi dolores quas ipsa distinctio, aperiam deserunt voluptas numquam non enim incidunt. Quasi voluptas eos non impedit",
   },
   {
     id: 2,
@@ -17,6 +19,8 @@ const products = [
     price: 200,
     available: true,
     sales: 20,
+    description:
+      "Lorem ipsum dolor sit amet consectetur adipisicing elit. Expedita earum obcaecati reprehenderit ipsam modi dolores quas ipsa distinctio, aperiam deserunt voluptas numquam non enim incidunt. Quasi voluptas eos non impedit",
   },
   {
     id: 3,
@@ -24,6 +28,8 @@ const products = [
     price: 300,
     available: false,
     sales: 30,
+    description:
+      "Lorem ipsum dolor sit amet consectetur adipisicing elit. Expedita earum obcaecati reprehenderit ipsam modi dolores quas ipsa distinctio, aperiam deserunt voluptas numquam non enim incidunt. Quasi voluptas eos non impedit",
   },
   {
     id: 4,
@@ -31,6 +37,8 @@ const products = [
     price: 400,
     available: true,
     sales: 40,
+    description:
+      "Lorem ipsum dolor sit amet consectetur adipisicing elit. Expedita earum obcaecati reprehenderit ipsam modi dolores quas ipsa distinctio, aperiam deserunt voluptas numquam non enim incidunt. Quasi voluptas eos non impedit",
   },
 ];
 
@@ -54,6 +62,7 @@ export default function ProductsPage() {
                 name={product.name}
                 price={product.price}
                 sales={product.sales}
+                description={product.description}
               />
             </div>
           </Link>
