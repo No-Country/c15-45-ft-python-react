@@ -33,10 +33,9 @@ SECRET_KEY = 'django-insecure-edpt^op&avq_=x@xox^185a9uj2#xu$u8t@8szvai0^klp+0b)
 DEBUG = True
 
 ALLOWED_HOSTS = [
-    'NoStoreBehind.pythonanywhere.com',
+    'nostorebehind.pythonanywhere.com',
     'localhost',
     '127.0.0.1',
-    "nostorebehind.pythonanywhere.com"
     ]
 
 
