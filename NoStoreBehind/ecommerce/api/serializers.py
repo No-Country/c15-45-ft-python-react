@@ -121,13 +121,13 @@ class PurchaseSerializer(serializers.ModelSerializer):
         fields = '__all__'
 
     def create(self, validated_data):
-        # Obtén el carrito de compras del usuario
+        # get  the user shopping car
         shopping_cart = ShoppingCart.objects.get(user=self.context['request'].user)
 
-        # Crea una nueva compra
+        # create a new purchase
         purchase = Purchase.objects.create(**validated_data)
 
-        # Añade las órdenes del carrito de compras a la compra
+        # add the shopping cart orders to the purchase
         for order in shopping_cart.orders.all():
             purchase.orders.add(order)
 
@@ -135,7 +135,7 @@ class PurchaseSerializer(serializers.ModelSerializer):
         
         purchase.save()
         
-        # Elimina las órdenes del carrito de compras
+        # Delete orders from shopping cart
         shopping_cart.orders.clear()
 
         return purchase
