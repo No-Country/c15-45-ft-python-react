@@ -36,6 +36,7 @@ ALLOWED_HOSTS = [
     'NoStoreBehind.pythonanywhere.com',
     'localhost',
     '127.0.0.1',
+    "nostorebehind.pythonanywhere.com"
     ]
 
 
