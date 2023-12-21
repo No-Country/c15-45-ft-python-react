@@ -5,7 +5,7 @@ import Filters from "@/components/filters";
 import ProductCard from "@/components/product-card";
 import Link from "next/link";
 
-// const products = [
+/** const products = [
 //   {
 //     id: 1,
 //     name: "Producto 1",
@@ -42,7 +42,7 @@ import Link from "next/link";
 //     description:
 //       "Lorem ipsum dolor sit amet consectetur adipisicing elit. Expedita earum obcaecati reprehenderit ipsam modi dolores quas ipsa distinctio, aperiam deserunt voluptas numquam non enim incidunt. Quasi voluptas eos non impedit",
 //   },
-// ];
+// ];*/
 type ProductObj = {
   id: number;
   product_images: Array<object>;
@@ -52,10 +52,10 @@ type ProductObj = {
   stock: number;
   sells: number;
   category: string[];
-};
+}
 
-// const URL = "https://nostorebehind.pythonanywhere.com/ecommerce/products/";
-const URL = "https://localhost:3000/ecommerce/products/";
+const URL = "https://nostorebehind.pythonanywhere.com/ecommerce/products/";
+// const URL = "http://localhost:8000/ecommerce/products/";
 
 export default function ProductsPage() {
   const [products, setProducts] = useState<Array<ProductObj>>([]);
@@ -70,7 +70,7 @@ export default function ProductsPage() {
         return response.json();
       })
       .then((data) => {
-        console.log(data);
+        console.log("products", data);
         setProducts(data);
       })
       .catch((error) => setError(error.message));
@@ -87,24 +87,27 @@ export default function ProductsPage() {
         <ButtonToggleView route="stores" />
       </div>
       <section className="h-full w-full">
-        {products.map((product) => (
-          <Link
-            href={`/products/${product.id}`}
-            key={product.id}
-            className="drop-shadow-lg"
-          >
-            <div className="py-1">
-              <ProductCard
-                available={product.stock > 0 ? true : false}
-                name={product.titulo}
-                price={product.price}
-                sales={product.sells}
-                description={product.description}
-                images={product.product_images}
-              />
-            </div>
-          </Link>
-        ))}
+        {products.map((product) => {
+          console.log("Seccion Products", product);
+          return (
+            <Link
+              href={`/products/${product.id}`}
+              key={product.id}
+              className="drop-shadow-lg"
+            >
+              <div className="py-1">
+                <ProductCard
+                  available={product.stock > 0 ? true : false}
+                  name={product.titulo}
+                  price={product.price}
+                  sales={product.sells}
+                  description={product.description}
+                  images={product.product_images}
+                />
+              </div>
+            </Link>
+          );
+        })}
       </section>
     </main>
   );

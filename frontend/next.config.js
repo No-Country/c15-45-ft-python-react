@@ -6,9 +6,15 @@ await import("./src/env.js");
 
 /** @type {import("next").NextConfig} */
 const config = {
-    images: {
-        domains: ["upload.wikimedia.org", "images.unsplash.com"]
-    }
+  images: {
+    remotePatterns: [
+      { protocol: "https", hostname: "upload.wikimedia.org" },
+      { protocol: "https", hostname: "images.unsplash.com" },
+      { protocol: "http", hostname: "localhost:8000" },
+      { protocol: "http", hostname: "localhost:3000" },
+      { protocol: "https", hostname: "nostorebehind.pythonanywhere.com" },
+    ],
+  },
 };
 
 export default config;

@@ -8,6 +8,7 @@ interface ProductCardProps {
   available: boolean;
   sales: number;
   description: string;
+  images: Array<object>;
 }
 
 function ProductCard({
@@ -23,11 +24,12 @@ function ProductCard({
   ) : (
     <p className="text-sm text-red-600">Sin Stock</p>
   );
+  console.log("product", images);
   return (
     <div className="flex w-full flex-col gap-2.5 rounded-lg bg-white p-3 ">
       <div className="relative h-36 w-full">
         <Image
-          src={images[0].image}
+          src="https://nostorebehind.pythonanywhere.com/media/images/products/_b23fcb61-0550-4205-b6c8-0470364a0e46.jpeg"
           fill
           className="h-full w-full rounded-md object-cover object-center"
           alt="Card Image"
