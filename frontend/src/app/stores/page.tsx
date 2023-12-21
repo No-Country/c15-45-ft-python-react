@@ -73,17 +73,18 @@ export default function StoresPage() {
       </div>
       <section className="pb-5">
         <div className="flex flex-wrap items-center">
-          {shops.map((product) => (
+          {shops.map((shop) => (
             <Link
-              href={`/products/${shop.id}`}
+              href={`/shops/${shop.user}`}
               key={shop.id}
               className="w-full drop-shadow-lg md:w-1/2 lg:w-1/4"
             >
               <article key={shop.id} className="p-1">
                 <StoreCard
-                  name={store.titulo}
-                  description={product.description}
-                  productsLength={products.length}
+                  name={shop.shop_name}
+                  description={shop.description}
+                  productsLength={shop.products.length}
+                  logo_image={shop.logo}
                 />
               </article>
             </Link>

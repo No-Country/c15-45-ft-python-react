@@ -6,15 +6,16 @@ interface StoreCardProps {
   name: string;
   description: string;
   productsLength: number;
+  logo_image:string;
 }
 
-function StoreCard({ name, description, productsLength }: StoreCardProps) {
-  console.log(productsLength);
+function StoreCard({ name, description, productsLength, logo_image }: StoreCardProps) {
+  console.log(logo_image);
   return (
     <div className="flex w-full flex-col gap-2.5 rounded-lg bg-white p-3">
       <div className="relative h-36 w-full">
         <Image
-          src="https://upload.wikimedia.org/wikipedia/commons/thumb/3/3f/Placeholder_view_vector.svg/310px-Placeholder_view_vector.svg.png"
+          src={logo_image}
           fill
           className="h-full w-full rounded-md object-cover object-center"
           alt="Card Image"
