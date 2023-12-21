@@ -17,7 +17,7 @@ class Category(models.Model):
 class Shop(models.Model):
     user = models.OneToOneField(User, on_delete=models.PROTECT, related_name='shop', primary_key=True)
     description = models.TextField(blank=True)
-    shop_name = models.CharField(max_length=16)
+    shop_name = models.CharField(max_length=50)
     logo = models.ImageField(null=True, blank=True, upload_to="images/shops")
     adress_street = models.CharField(max_length=32)
     adress_number = models.CharField(max_length=8)
@@ -50,7 +50,7 @@ class OrderRequest(models.Model):
 
 class ShoppingCart(models.Model):
     user = models.OneToOneField(User, on_delete=models.PROTECT, related_name='shopping_cart', primary_key=True)
-    orders = models.ManyToManyField(OrderRequest, related_name='shopping_cart')
+    orders = models.ManyToManyField(OrderRequest, related_name='shopping_cart',null=True,blank=True)
    
     def get_subtotal(self):
         return sum([order.total() for order in self.orders.all()])
