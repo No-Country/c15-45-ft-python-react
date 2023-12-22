@@ -129,8 +129,11 @@ class PurchaseSerializer(serializers.ModelSerializer):
 
         # add the shopping cart orders to the purchase
         for order in shopping_cart.orders.all():
+            producto = order.producto
+            producto.sells += order.quantity
+            producto.save()
             purchase.orders.add(order)
-
+            
         purchase.total = shopping_cart.get_subtotal()
         
         purchase.save()
