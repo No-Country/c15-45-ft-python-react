@@ -29,7 +29,8 @@ function ProductCard({
     <div className="flex w-full flex-col gap-2.5 rounded-lg bg-white p-3 ">
       <div className="relative h-36 w-full">
         <Image
-          src="https://nostorebehind.pythonanywhere.com/media/images/products/_b23fcb61-0550-4205-b6c8-0470364a0e46.jpeg"
+          // src="https://nostorebehind.pythonanywhere.com/media/images/products/_b23fcb61-0550-4205-b6c8-0470364a0e46.jpeg"
+          src={images[0].image}
           fill
           className="h-full w-full rounded-md object-cover object-center"
           alt="Card Image"
@@ -40,7 +41,7 @@ function ProductCard({
           <div className="flex h-full flex-col items-start self-start">
             <h3 className="text-lg font-semibold">{name}</h3>
             <p className="text-sm ">
-              Precio: <span className="text-gray-500">${price}</span>
+              Precio: <span className="text-gray-500">$ {price}</span>
             </p>
           </div>
           <div className="flex flex-col items-center">
@@ -48,10 +49,15 @@ function ProductCard({
             <p className="ml-2 text-sm text-gray-500">Ventas: {sales}</p>
           </div>
         </div>
-        <p className="hidden text-primary/70 sm:block">{description}</p>
+        <p className="hidden truncate text-primary/70 sm:block">
+          {description}
+        </p>
       </div>
       <Button variant="outline" className="w-full justify-center">
-        <ShoppingCart className="m-4 mr-2 h-4" /> Agregar al carrito
+        <div className="flex flex-nowrap items-center justify-center">
+          <ShoppingCart className="m-4 mr-2 h-4" />
+          <span>Agregar al carrito</span>
+        </div>
       </Button>
     </div>
   );

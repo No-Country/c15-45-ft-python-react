@@ -23,11 +23,20 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
-      <body className={`font-sans ${poppins.variable}bg-slate-100`}>
+      <head>
+        <link
+          href="https://cdnjs.cloudflare.com/ajax/libs/flowbite/2.2.0/flowbite.min.css"
+          rel="stylesheet"
+        />
+      </head>
+      <body
+        className={`bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500 font-sans ${poppins.variable}bg-slate-100`}
+      >
         <AuthProvider>
           <Navbar />
           {children}
         </AuthProvider>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/flowbite/2.2.0/flowbite.min.js"></script>
       </body>
     </html>
   );

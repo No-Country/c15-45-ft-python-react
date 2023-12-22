@@ -1,48 +1,10 @@
 "use client";
-import { useEffect, useState } from "react";
 import ButtonToggleView from "@/components/button-see-stores";
 import Filters from "@/components/filters";
 import ProductCard from "@/components/product-card";
+import { useEffect, useState } from "react";
 import Link from "next/link";
 
-/** const products = [
-//   {
-//     id: 1,
-//     name: "Producto 1",
-//     price: 100,
-//     available: true,
-//     sales: 10,
-//     description:
-//       "Lorem ipsum dolor sit amet consectetur adipisicing elit. Expedita earum obcaecati reprehenderit ipsam modi dolores quas ipsa distinctio, aperiam deserunt voluptas numquam non enim incidunt. Quasi voluptas eos non impedit",
-//   },
-//   {
-//     id: 2,
-//     name: "Producto 2",
-//     price: 200,
-//     available: true,
-//     sales: 20,
-//     description:
-//       "Lorem ipsum dolor sit amet consectetur adipisicing elit. Expedita earum obcaecati reprehenderit ipsam modi dolores quas ipsa distinctio, aperiam deserunt voluptas numquam non enim incidunt. Quasi voluptas eos non impedit",
-//   },
-//   {
-//     id: 3,
-//     name: "Producto 3",
-//     price: 300,
-//     available: false,
-//     sales: 30,
-//     description:
-//       "Lorem ipsum dolor sit amet consectetur adipisicing elit. Expedita earum obcaecati reprehenderit ipsam modi dolores quas ipsa distinctio, aperiam deserunt voluptas numquam non enim incidunt. Quasi voluptas eos non impedit",
-//   },
-//   {
-//     id: 4,
-//     name: "Producto 4",
-//     price: 400,
-//     available: true,
-//     sales: 40,
-//     description:
-//       "Lorem ipsum dolor sit amet consectetur adipisicing elit. Expedita earum obcaecati reprehenderit ipsam modi dolores quas ipsa distinctio, aperiam deserunt voluptas numquam non enim incidunt. Quasi voluptas eos non impedit",
-//   },
-// ];*/
 type ProductObj = {
   id: number;
   product_images: Array<object>;
@@ -52,7 +14,7 @@ type ProductObj = {
   stock: number;
   sells: number;
   category: string[];
-}
+};
 
 const URL = "https://nostorebehind.pythonanywhere.com/ecommerce/products/";
 // const URL = "http://localhost:8000/ecommerce/products/";
@@ -86,28 +48,31 @@ export default function ProductsPage() {
         <Filters />
         <ButtonToggleView route="stores" />
       </div>
-      <section className="h-full w-full">
-        {products.map((product) => {
-          console.log("Seccion Products", product);
-          return (
-            <Link
-              href={`/products/${product.id}`}
-              key={product.id}
-              className="drop-shadow-lg"
-            >
-              <div className="py-1">
-                <ProductCard
-                  available={product.stock > 0 ? true : false}
-                  name={product.titulo}
-                  price={product.price}
-                  sales={product.sells}
-                  description={product.description}
-                  images={product.product_images}
-                />
-              </div>
-            </Link>
-          );
-        })}
+      <section className="pb-5">
+        {/* h-full w-full */}
+        <div className="flex flex-wrap items-center">
+          {products.map((product) => {
+            console.log("Seccion Products", product);
+            return (
+              <Link
+                href={`/products/${product.id}`}
+                key={product.id}
+                className="mb-2.5 w-full drop-shadow-lg md:w-1/2 lg:w-1/4"
+              >
+                <div className="py2 max-h-80">
+                  <ProductCard
+                    available={product.stock > 0 ? true : false}
+                    name={product.titulo}
+                    price={product.price}
+                    sales={product.sells}
+                    description={product.description}
+                    images={product.product_images}
+                  />
+                </div>
+              </Link>
+            );
+          })}
+        </div>
       </section>
     </main>
   );

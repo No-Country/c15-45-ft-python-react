@@ -6,16 +6,21 @@ interface StoreCardProps {
   name: string;
   description: string;
   productsLength: number;
-  logo_image:string;
+  shop_logo: string;
 }
 
-function StoreCard({ name, description, productsLength, logo_image }: StoreCardProps) {
-  console.log(logo_image);
+function StoreCard({
+  name,
+  description,
+  productsLength,
+  shop_logo,
+}: StoreCardProps) {
+  console.log(shop_logo);
   return (
-    <div className="flex w-full flex-col gap-2.5 rounded-lg bg-white p-3">
+    <div className="flex w-full flex-col gap-2.5 rounded-lg bg-amber-100 p-3">
       <div className="relative h-36 w-full">
         <Image
-          src={logo_image}
+          src={shop_logo}
           fill
           className="h-full w-full rounded-md object-cover object-center"
           alt="Card Image"
@@ -29,12 +34,14 @@ function StoreCard({ name, description, productsLength, logo_image }: StoreCardP
       </div>
       <Separator />
       <div className="flex items-center">
-        <p className="text-[13px] text-primary">
-          Cant. Prod: <span>{productsLength}</span>
-        </p>
-        <Button variant="outline" size="sm" className="ml-auto">
-          Ver Tienda
-        </Button>
+        <div className="flex flex-nowrap items-center justify-center justify-between">
+          <p className="text-[13px] text-primary">
+            Cant. Prod: <span>{productsLength}</span>
+          </p>
+          <Button variant="outline" size="sm" className="ml-auto">
+            Ver Tienda
+          </Button>
+        </div>
       </div>
     </div>
   );

@@ -1,13 +1,16 @@
-"use client"
+"use client";
 import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
 import { ChevronLeft, Minus, Plus } from "lucide-react";
 import Image from "next/image";
 import { useEffect, useState } from "react";
+import Link from "next/link";
+import "flowbite";
+
 const products = [
   {
     id: 1,
-    name: "Producto 1",
+    titulo: "Producto 1",
     price: 100,
     available: true,
     description:
@@ -15,22 +18,22 @@ const products = [
     sales: 10,
     image:
       "https://images.unsplash.com/photo-1491553895911-0055eca6402d?q=80&w=2080&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
-  }
+  },
 ];
 type ProductObj = {
   id: number;
   product_images: Array<object>;
-  name: string;
+  titulo: string;
   description: string;
   price: number;
   stock: number;
   sells: number;
   category: string[];
-}
+};
 
 const ProductDetail = ({ params }: { params: { id: string } }) => {
   const URL = `https://nostorebehind.pythonanywhere.com/ecommerce/products/${params.id}`;
-  const [product, setProduct] = useState<ProductObj>(null);
+  const [product, setProduct] = useState<ProductObj | null>(null);
   const [error, setError] = useState(null);
 
   useEffect(() => {
@@ -55,35 +58,47 @@ const ProductDetail = ({ params }: { params: { id: string } }) => {
   if (!product) {
     return <h1>Producto no encontrado</h1>;
   }
-  const { name, price, stock, sells, description, product_images } = product;
-  let available = stock > 0 ? true : false
-  available = available ? (
-    <p className="text-sm font-semibold text-green-600">Disponible</p>
-  ) : (
-    <p className="text-sm font-semibold text-red-600">Sin Stock</p>
-  );
+  const { titulo, price, stock, sells, description, product_images } = product;
+  const available =
+    stock > 0 ? (
+      <p className="text-sm font-semibold text-green-600">Disponible</p>
+    ) : (
+      <p className="text-sm font-semibold text-red-600">Sin Stock</p>
+    );
   return (
     <article className="h-[calc(100vh-68px)] max-h-[calc(100vh-68px)] w-full overflow-hidden">
       <div className="relative h-96 w-full">
-        <Image
-          src={product_images[0].image}
-          alt="Product Image"
-          layout="fill"
-          className="object-cover object-center"
-        />
+        <div data-carousel="slide">
+          {product_images.map((image_data: any) => {
+            return (
+              <Image
+                src={image_data.image}
+                alt="Product Image"
+                layout="fill"
+                className="object-contain object-center"
+              />
+            );
+          })}
+        </div>
         <div className="absolute left-2 top-2 ">
           <div className="grid h-8 w-8 place-content-center rounded-full bg-white">
-            <ChevronLeft />
+            <Link
+              href={`/products`}
+              key={product.id}
+              className="mb-2.5 w-full drop-shadow-lg md:w-1/2 lg:w-1/4"
+            >
+              <ChevronLeft />
+            </Link>
           </div>
         </div>
       </div>
       <div className="relative z-10 -mt-8 h-full w-full rounded-t-xl bg-white px-4 py-5 drop-shadow-xl">
         <div className="grid grid-cols-6 items-center">
           <div className="col-span-4 self-start">
-            <h1 className="text-xl font-bold">{name}</h1>
-            <p className="text-sm text-primary/70">Nombre Tienda</p>
+            <h1 className="text-xl font-bold">{titulo}</h1>
+            <p className="text-sm text-primary/70">{titulo}</p>
             <p className="text-sm text-primary">
-              Ventas: <span className="font-semibold">0</span>
+              Ventas: <span className="font-semibold">{sells}</span>
             </p>
           </div>
           <div className="col-span-2 self-baseline justify-self-end">
@@ -114,7 +129,9 @@ const ProductDetail = ({ params }: { params: { id: string } }) => {
             <p className="text-lg font-semibold text-primary">Precio Total</p>
             <p className="text-xl font-bold text-primary">${price}</p>
           </div>
-          <Button className="w-full">Agregar al carrito</Button>
+          <Button className="w-full">
+            <Link href={`/cart`}>Agregar al carrito</Link>
+          </Button>
         </div>
       </div>
     </article>

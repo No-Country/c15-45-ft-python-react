@@ -48,7 +48,7 @@ export const authOptions: NextAuthOptions = {
       async authorize(credentials, req) {
         // Add logic here to look up the user from the credentials supplied
         console.log(credentials, req);
-        const user = { username: "lautaroaguilar", pasword: "test123" };
+        const user = { username: "Locrienaleross", pasword: "test123" };
         if (
           credentials &&
           credentials.username === user.username &&

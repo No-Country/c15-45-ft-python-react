@@ -1,5 +1,5 @@
-"use client"
-import { useEffect, useState } from 'react';
+"use client";
+import { useEffect, useState } from "react";
 import ButtonToggleView from "@/components/button-see-stores";
 import Filters from "@/components/filters";
 import StoreCard from "@/components/store-card";
@@ -41,24 +41,25 @@ type ShopObj = {
   shop_name: string;
   logo: string;
   category: string;
-}
-const URL = "https://nostorebehind.pythonanywhere.com/ecommerce/shops/"
+};
+const URL = "https://nostorebehind.pythonanywhere.com/ecommerce/shops/";
 export default function StoresPage() {
-
   const [shops, setShops] = useState<Array<ShopObj>>([]);
   const [error, setError] = useState(null);
 
   useEffect(() => {
     fetch(URL)
-      .then(response => {
-        if (!response.ok) { throw new Error('Error al cargar los datos'); }
+      .then((response) => {
+        if (!response.ok) {
+          throw new Error("Error al cargar los datos");
+        }
         return response.json();
       })
-      .then(data => {
+      .then((data) => {
         console.log(data);
-        setShops(data)
+        setShops(data);
       })
-      .catch(error => setError(error.message));
+      .catch((error) => setError(error.message));
   }, []);
 
   if (error) {
@@ -75,18 +76,18 @@ export default function StoresPage() {
         <div className="flex flex-wrap items-center">
           {shops.map((shop) => (
             <Link
-              href={`/shops/${shop.user}`}
+              href={`/stores/${shop.user}`}
               key={shop.id}
-              className="w-full drop-shadow-lg md:w-1/2 lg:w-1/4"
+              className="mb-2.5 w-full drop-shadow-lg md:w-1/2 lg:w-1/4"
             >
-              <article key={shop.id} className="p-1">
+              <div key={shop.id} className="max-h-52 p-1">
                 <StoreCard
                   name={shop.shop_name}
                   description={shop.description}
                   productsLength={shop.products.length}
-                  logo_image={shop.logo}
+                  shop_logo={shop.logo}
                 />
-              </article>
+              </div>
             </Link>
           ))}
         </div>
