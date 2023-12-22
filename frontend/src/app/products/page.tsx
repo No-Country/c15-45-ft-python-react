@@ -43,35 +43,31 @@ export default function ProductsPage() {
   }
 
   return (
-    <main className="relative flex h-[calc(100vh-68px)] flex-col gap-2.5 px-4 pb-7">
+    <main className="relative mx-auto flex h-[calc(100vh-68px)] flex-col gap-2.5 px-4 pb-7">
       <div className="flex items-center justify-between">
         <Filters />
         <ButtonToggleView route="stores" />
       </div>
       <section className="pb-5">
-        {/* h-full w-full */}
         <div className="flex flex-wrap items-center">
-          {products.map((product) => {
-            console.log("Seccion Products", product);
-            return (
-              <Link
-                href={`/products/${product.id}`}
-                key={product.id}
-                className="mb-2.5 w-full drop-shadow-lg md:w-1/2 lg:w-1/4"
-              >
-                <div className="py2 max-h-80">
-                  <ProductCard
-                    available={product.stock > 0 ? true : false}
-                    name={product.titulo}
-                    price={product.price}
-                    sales={product.sells}
-                    description={product.description}
-                    images={product.product_images}
-                  />
-                </div>
-              </Link>
-            );
-          })}
+          {products.map((product) => (
+            <Link
+              href={`/products/${product.id}`}
+              key={product.id}
+              className="mb-2.5 drop-shadow-lg md:w-1/2 lg:w-1/4"
+            >
+              <div className="max-h-80 p-1">
+                <ProductCard
+                  available={product.stock > 0 ? true : false}
+                  name={product.titulo}
+                  price={product.price}
+                  sales={product.sells}
+                  description={product.description}
+                  images={product.product_images}
+                />
+              </div>
+            </Link>
+          ))}
         </div>
       </section>
     </main>

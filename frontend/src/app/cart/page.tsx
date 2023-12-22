@@ -58,7 +58,7 @@ const Cart = () => {
   );
 
   return (
-    <>
+    <div className="block">
       <div className="my-6 grid h-[calc(100vh-68px)] w-full grid-cols-6 px-4">
         <div className="mb-5 text-xl font-bold">
           <h1>Carrito</h1>
@@ -129,8 +129,8 @@ const Cart = () => {
           </div>
         )}
       </div>
-      <div className="h-24"></div>
-    </>
+      <div className="h-24 w-full"></div>
+    </div>
   );
 };
 export default Cart;

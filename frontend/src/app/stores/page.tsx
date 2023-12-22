@@ -78,7 +78,7 @@ export default function StoresPage() {
             <Link
               href={`/stores/${shop.user}`}
               key={shop.id}
-              className="mb-2.5 w-full drop-shadow-lg md:w-1/2 lg:w-1/4"
+              className="mb-2.5 drop-shadow-lg md:w-1/2 lg:w-1/4"
             >
               <div key={shop.id} className="max-h-52 p-1">
                 <StoreCard

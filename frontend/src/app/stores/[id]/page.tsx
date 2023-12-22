@@ -83,9 +83,9 @@ const ShopDetail = ({ params }: { params: { id: string } }) => {
             <Link
               href={`/products/${product.id}`}
               key={product.id}
-              className="mb-2.5 w-full drop-shadow-lg md:w-1/2 lg:w-1/4"
+              className="mb-2.5 drop-shadow-lg md:w-1/2 lg:w-1/4"
             >
-              <div className="py2 max-h-80">
+              <div className="max-h-80 p-1">
                 <ProductCard
                   name={product.name}
                   price={product.price}

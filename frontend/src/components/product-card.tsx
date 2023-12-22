@@ -26,7 +26,7 @@ function ProductCard({
   );
   console.log("product", images);
   return (
-    <div className="flex w-full flex-col gap-2.5 rounded-lg bg-white p-3 ">
+    <div className="flex w-full flex-col gap-2.5 rounded-lg bg-amber-100 p-3 ">
       <div className="relative h-36 w-full">
         <Image
           // src="https://nostorebehind.pythonanywhere.com/media/images/products/_b23fcb61-0550-4205-b6c8-0470364a0e46.jpeg"
