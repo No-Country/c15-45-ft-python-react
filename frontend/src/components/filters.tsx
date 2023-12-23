@@ -21,12 +21,12 @@ function Filters() {
   return (
     <Sheet>
       <SheetTrigger className="items-tart flex">
-        <div className="inline-flex h-10 items-center justify-center whitespace-nowrap rounded-md border border-input bg-background px-4 py-2 text-sm font-medium ring-offset-background transition-colors hover:bg-accent hover:text-accent-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50">
+        <div className="inline-flex h-10 items-center justify-center whitespace-nowrap rounded-md border border-input bg-amber-200 px-4 py-2 text-sm font-medium ring-offset-background transition-colors hover:bg-accent hover:text-accent-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50">
           <Filter className="mr-2 h-4 w-4" />
           Filtrar
         </div>
       </SheetTrigger>
-      <SheetContent side="bottom">
+      <SheetContent className="mx-auto w-3/4 bg-amber-100 rounded" side="bottom">
         <SheetHeader>
           <h3 className="text-xl font-semibold">Filtros</h3>
         </SheetHeader>

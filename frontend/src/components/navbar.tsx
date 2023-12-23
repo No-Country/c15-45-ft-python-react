@@ -21,7 +21,7 @@ function Navbar() {
           {session ? `${session.user.name}` : "Ingresa o regístrate"}
         </p>
         <Link href="/cart">
-          <ShoppingBasket className="h-6 w-6 sm:h-8 sm:w-8" />
+          <ShoppingBasket className="h-6 w-6 sm:h-8 sm:w-8 bg-amber-200 rounded-full" />
         </Link>
       </div>
     </nav>

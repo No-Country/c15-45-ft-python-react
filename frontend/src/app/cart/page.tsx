@@ -1,13 +1,18 @@
 "use client";
-import { Button } from "@/components/ui/button";
 import { Minus, Plus, X } from "lucide-react";
 import Image from "next/image";
 import { useEffect, useState } from "react";
 import Link from "next/link";
+// import { Button } from "@/components/ui/button";
+
+interface ImageData {
+  id: number;
+  image: string;
+}
 
 type ProductObj = {
   id: number;
-  product_images: Array<object>;
+  product_images: Array<ImageData>;
   titulo: string;
   description: string;
   price: number;
@@ -18,8 +23,8 @@ type ProductObj = {
 const URL = "https://nostorebehind.pythonanywhere.com/ecommerce/products/";
 
 const Cart = () => {
-  const [products, setProducts] = useState<Array<ProductObj>>([]);
-  const [error, setError] = useState(null);
+  const [products, setProducts] = useState<Array<ProductObj> | undefined>();
+  const [error, setError] = useState<any | null>(null);
   const [showAlert, setShowAlert] = useState(false);
 
   useEffect(() => {
@@ -30,11 +35,11 @@ const Cart = () => {
         }
         return response.json();
       })
-      .then((data) => {
+      .then((data: Array<ProductObj> | undefined) => {
         console.log("products", data);
         setProducts(data);
       })
-      .catch((error) => setError(error.message));
+      .catch((error: any) => setError(error?.message));
   }, []);
 
   if (error) {
@@ -44,10 +49,10 @@ const Cart = () => {
   const buy_done = (
     <div className="col-span-6 flex justify-center">
       <div role="alert" className="">
-        <div class="rounded-t bg-green-500 px-4 py-2 font-bold text-white">
+        <div className="rounded-t bg-green-500 px-4 py-2 font-bold text-white">
           Compra Exitosa
         </div>
-        <div class=" rounded-b border border-t-0 border-green-400 bg-orange-100 px-4 py-3 text-center text-gray-700">
+        <div className=" rounded-b border border-t-0 border-green-400 bg-orange-100 px-4 py-3 text-center text-gray-700">
           <p>Gracias por tu compra. Apoyas a futuros grandes empresarios.</p>
           <Link href={`/products/`} className="">
             <strong>Retornar a listado de productos</strong>
@@ -64,13 +69,13 @@ const Cart = () => {
           <h1>Carrito</h1>
         </div>
         <div className="col-span-6 grid grid-cols-6 gap-2">
-          {products.map((product) => {
+          {products?.map((product: ProductObj) => {
             return (
-              product.id % 2 == 0 && (
+              product?.id % 2 == 0 && (
                 <article className="col-span-4 col-start-2 mb-2 grid grid-cols-6 rounded-md bg-amber-100 p-2">
                   <div className="relative col-span-2 h-20 w-20">
                     <Image
-                      src={product.product_images[0].image}
+                      src={product?.product_images[0]?.image ?? ""}
                       alt="Product Image"
                       className="rounded-md object-cover object-center"
                       fill
@@ -119,7 +124,7 @@ const Cart = () => {
           <div className="col-span-6 mt-7 flex h-7 justify-center">
             <button
               type="button"
-              href={`products/`}
+              // ref={`products/`}
               disabled={showAlert}
               onClick={() => setShowAlert(!showAlert)}
               className="w-24 rounded-md bg-orange-300"

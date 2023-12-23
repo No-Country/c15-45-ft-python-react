@@ -1,15 +1,29 @@
 "use client";
 import ProductCard from "@/components/product-card";
-import { Button } from "@/components/ui/button";
+// import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
-import { ChevronLeft, Minus, Plus } from "lucide-react";
+import { ChevronLeft /*Minus, Plus*/ } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 import { useEffect, useState } from "react";
 
+interface ImageData {
+  id: number;
+  image: string;
+}
+type ProductObj = {
+  id: number;
+  name: string;
+  price: number;
+  stock: number;
+  sells: number;
+  description: string;
+  product_images: Array<ImageData>;
+};
+
 type ShopObj = {
   user: number; // id
-  products: Array<object>;
+  products: Array<ProductObj>;
   shop_name: string;
   description: string;
   logo: string;
@@ -19,7 +33,7 @@ type ShopObj = {
 const ShopDetail = ({ params }: { params: { id: string } }) => {
   const URL = `https://nostorebehind.pythonanywhere.com/ecommerce/shops/${params.id}`;
   const [shop, setShop] = useState<ShopObj | null>(null);
-  const [error, setError] = useState(null);
+  const [error, setError] = useState<any | undefined | null>(null);
 
   useEffect(() => {
     fetch(URL)
@@ -29,11 +43,11 @@ const ShopDetail = ({ params }: { params: { id: string } }) => {
         }
         return response.json();
       })
-      .then((data) => {
+      .then((data: ShopObj | null) => {
         console.log("shops", data);
         setShop(data);
       })
-      .catch((error) => setError(error.message));
+      .catch((error: any) => setError(error?.message));
   }, []);
 
   if (error) {
@@ -43,10 +57,10 @@ const ShopDetail = ({ params }: { params: { id: string } }) => {
   if (!shop) {
     return <h1>Tienda no encontrada</h1>;
   }
-  const { user, description, products, shop_name, logo, category } = shop;
+  const { description, products, shop_name, logo } = shop;
 
   return (
-    <article className="h-[calc(100vh-68px)] max-h-[calc(100vh-68px)] w-full overflow-scroll">
+    <article className="overflow-hiden mx-auto h-auto w-3/4"> {/* h-[calc(100vh-68px)] max-h-[calc(100vh-68px)]*/}
       <div className="relative h-96 w-full">
         <Image
           src={logo}
@@ -62,13 +76,13 @@ const ShopDetail = ({ params }: { params: { id: string } }) => {
           </div>
         </div>
       </div>
-      <div className="relative z-10 -mt-8 h-full w-full rounded-t-xl bg-white px-4 py-5 drop-shadow-xl">
+      <div className="relative z-10 -mt-8 h-auto w-full rounded-t-xl bg-white px-4 py-5 drop-shadow-xl">
         <div className="grid grid-cols-6 items-center">
           <div className="col-span-4 self-start">
             <h1 className="text-xl font-bold">{shop_name}</h1>
             <p className="text-sm text-primary">
               Productos:{" "}
-              <span className="font-semibold">{products.length}</span>
+              <span className="font-semibold">{products?.length}</span>
             </p>
           </div>
         </div>
@@ -78,24 +92,19 @@ const ShopDetail = ({ params }: { params: { id: string } }) => {
           <p className="text-sm text-primary/80">{description}</p>
         </div>
         <Separator className="my-2" />
-        <div className="flex flex-wrap items-center">
-          {products.map((product) => (
-            <Link
-              href={`/products/${product.id}`}
-              key={product.id}
-              className="mb-2.5 drop-shadow-lg md:w-1/2 lg:w-1/4"
-            >
-              <div className="max-h-80 p-1">
-                <ProductCard
-                  name={product.name}
-                  price={product.price}
-                  available={product.stock > 0 ? true : false}
-                  sales={product.sells}
-                  description={product.description}
-                  images={product.product_images}
-                />
-              </div>
-            </Link>
+        <div className="flex flex-wrap items-center justify-center">
+          {products.map((product: ProductObj) => (
+            <div className="xs:w-full mb-2.5 max-h-80 p-1 drop-shadow-lg sm:w-full md:w-1/2 lg:w-1/4">
+              <ProductCard
+                id={product.id}
+                name={product?.name}
+                price={product?.price}
+                available={product?.stock > 0 ? true : false}
+                sales={product?.sells}
+                description={product?.description}
+                images={product?.product_images}
+              />
+            </div>
           ))}
         </div>
       </div>

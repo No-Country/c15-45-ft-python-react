@@ -3,18 +3,21 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { ScrollArea } from "@/components/ui/scroll-area";
-import { Store } from "lucide-react";
+// import { Store } from "lucide-react";
 import { signIn } from "next-auth/react";
 import Image from "next/image";
 import Link from "next/link";
 import React, { useState } from "react";
 
 const Signin = () => {
-  const [user, setUser] = useState("");
-  const [password, setPassword] = useState("");
+  const [user, setUser] = useState<string>("");
+  const [password, setPassword] = useState<any | string | undefined>("");
 
   const handleSubmit = (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
     e.preventDefault();
+    // const data_user = e.target;
+    setUser("");
+    setPassword("");
     signIn("credentials", {
       username: user,
       password,
@@ -114,7 +117,12 @@ const Signin = () => {
                   </div>
                   {/* create no acount? sign up */}
                   <div className="mt-4 flex w-full justify-center">
-                    <Button className="w-full max-w-sm ">Registrarse</Button>
+                    <Button
+                      className="w-full max-w-sm "
+                      onClick={(e) => handleSubmit(e)}
+                    >
+                      Registrarse
+                    </Button>
                   </div>
                   <div className="mt-4 flex w-full justify-center pb-8">
                     <button className="text-sm text-gray-600 hover:text-gray-700">
