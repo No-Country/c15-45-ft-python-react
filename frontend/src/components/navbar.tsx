@@ -16,12 +16,14 @@ function Navbar() {
       {/* menu */}
       <div className="flex items-center justify-between px-5 py-5">
         <Menu className="h-6 w-6 sm:h-8 sm:w-8" />
-        <p className="text-lg font-semibold sm:text-xl">
-          Bienvenid@,{" "}
-          {session ? `${session.user.name}` : "Ingresa o regístrate"}
-        </p>
+        <div className="text-amber-100 drop-shadow-xl">
+          <h1 className="text-lg font-semibold sm:text-xl">
+            Bienvenid@,{" "}
+            {session ? `${session.user.name}` : "Ingresa o regístrate"}
+          </h1>
+        </div>
         <Link href="/cart">
-          <ShoppingBasket className="h-6 w-6 sm:h-8 sm:w-8 bg-amber-200 rounded-full" />
+          <ShoppingBasket className="h-6 w-6 rounded-full bg-amber-200 sm:h-8 sm:w-8 drop-shadow-xl" />
         </Link>
       </div>
     </nav>

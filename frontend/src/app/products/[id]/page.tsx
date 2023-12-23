@@ -128,7 +128,7 @@ const ProductDetail = ({ params }: { params: { id: string } }) => {
             <p className="text-lg font-semibold text-primary">Precio Total</p>
             <p className="text-xl font-bold text-primary">${price}</p>
           </div>
-          <Button className="w-full">
+          <Button className="w-1/4 mx-auto">
             <Link href={`/cart`}>Agregar al carrito</Link>
           </Button>
         </div>

@@ -7,6 +7,7 @@ import { signIn } from "next-auth/react";
 import Image from "next/image";
 import Link from "next/link";
 import React, { useState } from "react";
+import imageLogin from "../../../../public/images/background_html_ecommerce.jpg";
 
 const Signin = () => {
   const [user, setUser] = useState("");
@@ -29,9 +30,9 @@ const Signin = () => {
           <div className="g-0 h-full w-full lg:flex lg:flex-wrap">
             <div className="relative flex items-center lg:w-6/12">
               <Image
-                src="https://images.unsplash.com/photo-1569412148958-600837f89a65?q=80&w=1974&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+                src={imageLogin.src}
                 fill
-                className="object-cover object-center"
+                className="bg-no-repeat object-cover object-center opacity-75"
                 alt="Login Image"
               />
             </div>
@@ -41,7 +42,7 @@ const Signin = () => {
                 <div className="text-center">
                   <Store size={48} className="mx-auto" />
                   <h4 className="mb-12 mt-1 pb-1 text-xl font-semibold">
-                    Somos NSB
+                    NSB e-commerce
                   </h4>
                 </div>
 
