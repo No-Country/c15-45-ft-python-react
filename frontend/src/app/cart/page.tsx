@@ -50,12 +50,16 @@ const Cart = () => {
     return <div>Error: {error}</div>;
   }
 
-  const add_product = (data_qty: number) => {
-    data_qty += 1;
+  const add_product = (data_qty: number, stock: number) => {
+    data_qty = data_qty ?? 0;
+    if (data_qty < stock) {
+      data_qty += 1;
+    }
     return data_qty;
   };
 
   const substract_product = (data_qty: number) => {
+    data_qty = data_qty ?? 0;
     if (data_qty > 0) {
       data_qty -= 1;
       return data_qty;
@@ -64,31 +68,30 @@ const Cart = () => {
     }
   };
 
-  const [subtotalProducts, setSubtotalProduct] = useState<{
-    [key: number]: { qty: number; subtotal: number };
+  const [qtyProducts, setQtyProduct] = useState<{
+    [key: number]: { qty: number };
   }>({
     ...products?.reduce(
       (acc, product) => ({
         ...acc,
         [product.id]: {
           qty: 1,
-          subtotal: 1 * product.price,
         },
       }),
       {},
     ),
   });
 
-  const newSubtotalsProduct = products?.map((product: ProductObj) => ({
-    ...subtotalProducts,
-    [product.id]: { qty: 1, subtotal: 1 * product.price },
-  }));
+  const [totalProducts, setTotalProducts] = useState<number | undefined>(0);
 
-  // const setSubtotalProduct = (newSubtotalProducts: {
-  //   [key: number]: { qty: number; subtotal: number };
-  // }) => {
-  //   setSubtotalProduct(newSubtotalProducts);
-  // };
+  const calcTotalProducts = () => {
+    const total = products?.reduce((acc, product) => {
+      const _qty = qtyProducts[product.id]?.qty ?? 0;
+
+      return acc + _qty * product.price;
+    }, 0);
+    setTotalProducts(total);
+  };
 
   const buy_done = (
     <div className="col-span-1 flex justify-center drop-shadow-xl">
@@ -110,20 +113,12 @@ const Cart = () => {
     <div className="block">
       <div className="my-6 grid h-[calc(100vh-68px)] w-full grid-cols-6 gap-2 px-4">
         <div className="col-span-1 mb-5 text-xl font-bold drop-shadow-xl">
-          <h1 className="rounded bg-amber-100 text-center text-stone-700">
+          <h1 className="text-stone-700 rounded bg-amber-100 text-center">
             Carrito
           </h1>
         </div>
         <div className="col-span-4 grid grid-cols-6 gap-2 lg:col-span-2 lg:col-start-3">
           {products?.map((product: ProductObj) => {
-            // const qtyProduct = 0;
-            // subtotalPrice.map((value) => {
-            //   if (value.product_id == product.id) {
-            //     value.product_subtotal = qtyProduct * product.price;
-            //   }
-            // });
-            // setSubtotalPrice([...subtotalPrice]);
-
             return (
               product?.id % 2 == 0 && (
                 <article
@@ -155,41 +150,26 @@ const Cart = () => {
                     <div className="flex h-full w-full items-end gap-1 justify-self-end">
                       <div className="flex w-full items-center justify-between">
                         <p className="text-md font-bold">
-                          $ Precio: <br />
-                          {product.price}
+                          Precio: <br />$ {product.price}
                         </p>
                         <p className="text-md font-bold">
-                          $ Subtotal: <br />
-                          {subtotalProducts[product.id]?.subtotal}
+                          Subtotal: <br />${" "}
+                          {(qtyProducts[product.id]?.qty ?? 0) * product.price}
                         </p>
                         <div className="flex h-8 w-20 items-center justify-around rounded-full bg-gray-400 bg-opacity-20 px-2 py-1">
-                          {/* <ProductQuantity
-                            quantity={qtyProduct}
-                            productId={product.id}
-                            productStock={product.stock}
-                            onQuantityChange={(qty: number) => {
-                              subtotalPrice.map((value) => {
-                                if (value.product_id == product.id) {
-                                  value.product_subtotal = qty * product.price;
-                                }
-                              });
-                              setSubtotalPrice([...subtotalPrice]);
-                            }}
-                          /> */}
                           <div className="max-w-5 flex items-center justify-center">
                             <Button
+                              className="p-0.5"
                               onClick={() => {
-                                setSubtotalProduct((prevSubtotalProduct) => ({
-                                  ...prevSubtotalProduct,
+                                setQtyProduct((prevQtyProduct) => ({
+                                  ...prevQtyProduct,
                                   [product.id]: {
                                     qty: substract_product(
-                                      prevSubtotalProduct[product.id]?.qty,
+                                      prevQtyProduct[product.id]?.qty,
                                     ),
-                                    subtotal:
-                                      prevSubtotalProduct[product.id]?.qty *
-                                      product.price,
                                   },
                                 }));
+                                calcTotalProducts();
                               }}
                             >
                               <Minus className="h-3 w-3" strokeWidth={1.5} />
@@ -197,23 +177,23 @@ const Cart = () => {
                           </div>
                           <div className="flex items-center justify-center">
                             <p className="text-sm font-semibold text-primary">
-                              {subtotalProducts[product.id]?.qty}
+                              {qtyProducts[product.id]?.qty ?? 0}
                             </p>
                           </div>
                           <div className="max-w-5 flex items-center justify-center">
                             <Button
+                              className="p-0.5"
                               onClick={() => {
-                                setSubtotalProduct((prevSubtotalProduct) => ({
-                                  ...prevSubtotalProduct,
+                                setQtyProduct((prevQtyProduct) => ({
+                                  ...prevQtyProduct,
                                   [product.id]: {
                                     qty: add_product(
-                                      prevSubtotalProduct[product.id]?.qty,
+                                      prevQtyProduct[product.id]?.qty,
+                                      product.stock,
                                     ),
-                                    subtotal:
-                                      prevSubtotalProduct[product.id]?.qty *
-                                      product.price,
                                   },
                                 }));
+                                calcTotalProducts();
                               }}
                             >
                               <Plus className="h-3 w-3" strokeWidth={1.5} />
@@ -230,15 +210,22 @@ const Cart = () => {
         </div>
         {showAlert && buy_done}
         {!showAlert && (
-          <div className="col-span-1 flex h-7 justify-center drop-shadow-xl">
-            <button
-              type="button"
-              disabled={showAlert}
-              onClick={() => setShowAlert(!showAlert)}
-              className="w-24 rounded-md bg-orange-300 shadow-lg shadow-orange-300/50"
-            >
-              Comprar
-            </button>
+          <div className="flex flex-col">
+            <div className="col-span-1 flex h-7 justify-center rounded bg-amber-100 drop-shadow-xl">
+              <p>
+                <strong>$ {totalProducts}</strong>
+              </p>
+            </div>
+            <div className="col-span-1 flex h-7 justify-center drop-shadow-xl">
+              <button
+                type="button"
+                disabled={showAlert}
+                onClick={() => setShowAlert(!showAlert)}
+                className="w-24 rounded-md bg-orange-300 shadow-lg shadow-orange-300/50"
+              >
+                Comprar
+              </button>
+            </div>
           </div>
         )}
       </div>
