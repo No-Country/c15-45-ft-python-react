@@ -27,7 +27,6 @@ function ProductCard({
   description,
   images,
 }: ProductCardProps) {
-
   const router = useRouter();
   const text_stock = available ? (
     <p className="text-sm text-green-600">Disponible</p>
@@ -70,7 +69,7 @@ function ProductCard({
       </Link>
       <Button
         variant="outline"
-        className="mx-auto w-3/4 justify-center"
+        className="mx-auto w-4/5 justify-center"
         onClick={handleClick}
       >
         <div className="flex flex-nowrap items-center justify-center">

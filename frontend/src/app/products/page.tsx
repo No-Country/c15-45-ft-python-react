@@ -46,8 +46,6 @@ export default function ProductsPage() {
 
   return (
     <main className="h-dvh relative mx-auto flex flex-col gap-2.5 px-4 pb-7">
-      {" "}
-      {/* [calc(100vh-58px)] */}
       <div className="flex items-center justify-between">
         <Filters />
         <ButtonToggleView route="stores" />
@@ -55,7 +53,7 @@ export default function ProductsPage() {
       <section className="pb-5">
         <div className="flex flex-wrap items-center">
           {products.map((product) => (
-            <div className="h-80 p-1 xs:w-full mb-2.5 drop-shadow-lg sm:w-full md:w-1/2 lg:w-1/4">
+            <div className="xs:w-full mb-2.5 h-80 p-1 drop-shadow-lg sm:w-full md:w-1/2 lg:w-1/4">
               <ProductCard
                 id={product.id}
                 available={product.stock > 0}

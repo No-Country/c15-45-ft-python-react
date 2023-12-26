@@ -5,7 +5,6 @@ import Filters from "@/components/filters";
 import StoreCard from "@/components/store-card";
 import Link from "next/link";
 
-
 type ShopObj = {
   user: number;
   products: Array<object>;
@@ -39,8 +38,7 @@ export default function StoresPage() {
   }
 
   return (
-    <main className="relative mx-auto flex h-dvh  flex-col gap-2.5 px-4 pb-7">
-      {/* [calc(100vh-58px)]*/}
+    <main className="h-dvh relative mx-auto flex  flex-col gap-2.5 px-4 pb-7">
       <div className="flex items-center justify-between">
         <Filters />
         <ButtonToggleView route="products" />

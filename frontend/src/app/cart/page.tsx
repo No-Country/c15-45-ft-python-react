@@ -26,10 +26,14 @@ const URL = "https://nostorebehind.pythonanywhere.com/ecommerce/products/";
 const Cart = () => {
   const [products, setProducts] = useState<Array<ProductObj> | undefined>();
   const [error, setError] = useState<any | null>(null);
+  const [qtyProducts, setQtyProduct] = useState<
+    | {
+        [key: number]: { qty: number };
+      }
+    | undefined
+  >(undefined);
+  const [totalProducts, setTotalProducts] = useState<number | undefined>(0);
   const [showAlert, setShowAlert] = useState(false);
-  // const [subtotalPrice, setSubtotalPrice] = useState<
-  //   Array<{ product_id: number; product_subtotal: number }>
-  // >([]);
 
   useEffect(() => {
     fetch(URL)
@@ -50,7 +54,21 @@ const Cart = () => {
     return <div>Error: {error}</div>;
   }
 
-  const add_product = (data_qty: number, stock: number) => {
+  useEffect(() => {
+    setQtyProduct({
+      ...products?.reduce(
+        (acc, product) => ({
+          ...acc,
+          [product.id]: {
+            qty: 0,
+          },
+        }),
+        {},
+      ),
+    });
+  }, [products]);
+
+  const add_product = (data_qty: number | undefined, stock: number) => {
     data_qty = data_qty ?? 0;
     if (data_qty < stock) {
       data_qty += 1;
@@ -58,7 +76,7 @@ const Cart = () => {
     return data_qty;
   };
 
-  const substract_product = (data_qty: number) => {
+  const substract_product = (data_qty: number | undefined) => {
     data_qty = data_qty ?? 0;
     if (data_qty > 0) {
       data_qty -= 1;
@@ -66,31 +84,6 @@ const Cart = () => {
     } else {
       return 0;
     }
-  };
-
-  const [qtyProducts, setQtyProduct] = useState<{
-    [key: number]: { qty: number };
-  }>({
-    ...products?.reduce(
-      (acc, product) => ({
-        ...acc,
-        [product.id]: {
-          qty: 1,
-        },
-      }),
-      {},
-    ),
-  });
-
-  const [totalProducts, setTotalProducts] = useState<number | undefined>(0);
-
-  const calcTotalProducts = () => {
-    const total = products?.reduce((acc, product) => {
-      const _qty = qtyProducts[product.id]?.qty ?? 0;
-
-      return acc + _qty * product.price;
-    }, 0);
-    setTotalProducts(total);
   };
 
   const buy_done = (
@@ -113,14 +106,16 @@ const Cart = () => {
     <div className="block">
       <div className="my-6 grid h-[calc(100vh-68px)] w-full grid-cols-6 gap-2 px-4">
         <div className="col-span-1 mb-5 text-xl font-bold drop-shadow-xl">
-          <h1 className="text-stone-700 rounded bg-amber-100 text-center">
+          <h1 className="text-stone-700 rounded border border-input bg-amber-100 text-center">
             Carrito
           </h1>
         </div>
         <div className="col-span-4 grid grid-cols-6 gap-2 lg:col-span-2 lg:col-start-3">
           {products?.map((product: ProductObj) => {
+            const product_approved = product?.id % 3 == 0;
+
             return (
-              product?.id % 2 == 0 && (
+              product_approved && (
                 <article
                   key={product.id}
                   className="col-span-6 mb-2 grid grid-cols-6 rounded-md bg-amber-100 p-2 drop-shadow-xl"
@@ -169,7 +164,13 @@ const Cart = () => {
                                     ),
                                   },
                                 }));
-                                calcTotalProducts();
+
+                                if (qtyProducts[product.id]?.qty - 1 >= 0) {
+                                  const total =
+                                    (totalProducts ?? 0) - product.price;
+
+                                  setTotalProducts(total < 0 ? 0 : total);
+                                }
                               }}
                             >
                               <Minus className="h-3 w-3" strokeWidth={1.5} />
@@ -193,7 +194,18 @@ const Cart = () => {
                                     ),
                                   },
                                 }));
-                                calcTotalProducts();
+
+                                // Valida aumento del total, si la cantidad futura no supera el stock
+                                const validateQty =
+                                  product.stock >=
+                                  qtyProducts[product.id].qty + 1;
+
+                                let total = totalProducts ?? 0;
+
+                                if (validateQty) {
+                                  total += product.price;
+                                  setTotalProducts(total);
+                                }
                               }}
                             >
                               <Plus className="h-3 w-3" strokeWidth={1.5} />
@@ -211,8 +223,9 @@ const Cart = () => {
         {showAlert && buy_done}
         {!showAlert && (
           <div className="flex flex-col">
-            <div className="col-span-1 flex h-7 justify-center rounded bg-amber-100 drop-shadow-xl">
+            <div className="h-content col-span-1 mb-2 flex justify-center rounded border border-input bg-amber-100 text-right drop-shadow-xl">
               <p>
+                Tu compra es de: <br />
                 <strong>$ {totalProducts}</strong>
               </p>
             </div>
