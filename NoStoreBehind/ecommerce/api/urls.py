@@ -8,6 +8,7 @@ from .views import (
     OrderRequestListCreateView, OrderRequestDetailView,
     ShoppingCartDetailView,
     PurchaseListCreateView, PurchaseDetailView,
+    ProductImagesListCreateView, ProductImagesDetailView
 )
 urlpatterns = [
     #Login Logout
@@ -25,11 +26,12 @@ urlpatterns = [
     # Rutas para las vistas de Product
     path('products/', ProductListCreateView.as_view(), name='product-list-create'),
     path('products/<int:pk>/', ProductDetailView.as_view(), name='product-detail'),
+    path('products-images/', ProductImagesListCreateView.as_view(), name='add-product-images'),
     # Rutas para las vistas de OrderRequest
     path('orderrequests/', OrderRequestListCreateView.as_view(), name='orderrequest-list-create'),
     path('orderrequests/<int:pk>/', OrderRequestDetailView.as_view(), name='orderrequest-detail'),
     # Ruta para la vista de ShoppingCart
-    path('shoppingcart/<int:pk>', ShoppingCartDetailView.as_view(), name='shoppingcart-detail'),
+    path('shoppingcart/', ShoppingCartDetailView.as_view(), name='shoppingcart-detail'),
     # Rutas para las vistas de Purchase
     path('purchases/', PurchaseListCreateView.as_view(), name='purchase-list-create'),
     path('purchases/<int:pk>/', PurchaseDetailView.as_view(), name='purchase-detail'),

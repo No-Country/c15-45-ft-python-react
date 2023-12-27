@@ -33,7 +33,7 @@ SECRET_KEY = 'django-insecure-edpt^op&avq_=x@xox^185a9uj2#xu$u8t@8szvai0^klp+0b)
 DEBUG = True
 
 ALLOWED_HOSTS = [
-    'NoStoreBehind.pythonanywhere.com',
+    'nostorebehind.pythonanywhere.com',
     'localhost',
     '127.0.0.1',
     ]
@@ -104,10 +104,15 @@ CORS_ORIGIN_WHITELIST = [
     'http://localhost:8000',
     'http://127.0.0.1:8000',
     'http://127.0.0.1:3000',
-    #'servidor.frontend.com'
 ]
 
-CORS_ALLOWED_ORIGINS = ['http://localhost:5173']
+CORS_ALLOWED_ORIGINS = [
+    'http://localhost:5173',
+    'http://localhost:3000',
+    'http://localhost:8000',
+    'http://127.0.0.1:8000',
+    'http://127.0.0.1:3000',
+]
 
 CSRF_TRUSTED_ORIGINS = [
     'http://localhost:3000',

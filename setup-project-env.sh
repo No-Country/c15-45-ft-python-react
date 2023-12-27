@@ -3,6 +3,7 @@
 # Iniciar entorno virtual
 echo -e "********** Iniciando entorno **********\n"
 source nsb-commerce-venv/Scripts/activate
+which python
 sleep 2
 
 # Instalar dependencias
@@ -37,14 +38,18 @@ done
 
 # Ejecutar acción correspondiente según respuesta de usuario
 if [[ $respuesta == "n" ]]; then
-  echo -e "No se levantarán proyectos"
+  echo -e "No se levantarán proyectos. \nInicie el entorno virtual manualmente. \n"
+  echo -e ">>> source nsb-commerce-venv/Scripts/activate"
   exit
 fi
 
 if [[ $respuesta == "f" ]]; then
-  echo -e ">>> Preparate. Levantando proyecto Frontend <<<\n\n"
+  # Desactivar entorno virtual
+  deactivate
+  echo ">>> Preparate. Levantando proyecto Frontend <<<"
+  echo -e "\n"
   cd frontend
-  if [ -d "frontend/node_modules" ]; then
+  if [ -d "node_modules" ]; then
     echo "node_modules verificado."
   else
     # Directorio node_modules no existe

@@ -1,87 +1,98 @@
+"use client";
 import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
 import { ChevronLeft, Minus, Plus } from "lucide-react";
 import Image from "next/image";
-const products = [
-  {
-    id: 1,
-    name: "Producto 1",
-    price: 100,
-    available: true,
-    description:
-      "lorem ipsum dolor sit amet consectetur adipisicing elit. Quisquam, voluptatum. Lorem ipsum dolor sit amet consectetur adipisicing elit. Quisquam, voluptatum. Lorem ipsum dolor sit amet consectetur adipisicing elit. Quisquam, voluptatum. Lorem ipsum dolor sit amet consectetur adipisicing elit. Quisquam, voluptatum.",
-    sales: 10,
-    image:
-      "https://images.unsplash.com/photo-1491553895911-0055eca6402d?q=80&w=2080&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
-  },
-  {
-    id: 2,
-    name: "Producto 2",
-    price: 200,
-    available: true,
-    description:
-      "lorem ipsum dolor sit amet consectetur adipisicing elit. Quisquam, voluptatum. Lorem ipsum dolor sit amet consectetur adipisicing elit. Quisquam, voluptatum. Lorem ipsum dolor sit amet consectetur adipisicing elit. Quisquam, voluptatum. Lorem ipsum dolor sit amet consectetur adipisicing elit. Quisquam, voluptatum.",
-    sales: 20,
-    image:
-      "https://images.unsplash.com/photo-1525966222134-fcfa99b8ae77?q=80&w=1996&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
-  },
-  {
-    id: 3,
-    name: "Producto 3",
-    price: 300,
-    available: false,
-    description:
-      "lorem ipsum dolor sit amet consectetur adipisicing elit. Quisquam, voluptatum. Lorem ipsum dolor sit amet consectetur adipisicing elit. Quisquam, voluptatum. Lorem ipsum dolor sit amet consectetur adipisicing elit. Quisquam, voluptatum. Lorem ipsum dolor sit amet consectetur adipisicing elit. Quisquam, voluptatum.",
-    sales: 30,
-    image:
-      "https://images.unsplash.com/photo-1512374382149-233c42b6a83b?q=80&w=1935&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
-  },
-  {
-    id: 4,
-    name: "Producto 4",
-    price: 400,
-    available: true,
-    description:
-      "lorem ipsum dolor sit amet consectetur adipisicing elit. Quisquam, voluptatum. Lorem ipsum dolor sit amet consectetur adipisicing elit. Quisquam, voluptatum. Lorem ipsum dolor sit amet consectetur adipisicing elit. Quisquam, voluptatum. Lorem ipsum dolor sit amet consectetur adipisicing elit. Quisquam, voluptatum.",
-    sales: 40,
-    image:
-      "https://images.unsplash.com/photo-1460353581641-37baddab0fa2?q=80&w=2071&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
-  },
-];
+import { useEffect, useState } from "react";
+import Link from "next/link";
+import { Carousel } from "@material-tailwind/react";
+
+type ProductObj = {
+  id: number;
+  product_images: Array<{ id: number; image: string }>;
+  titulo: string;
+  description: string;
+  price: number;
+  stock: number;
+  sells: number;
+  shop: number;
+  category: string[];
+};
 
 const ProductDetail = ({ params }: { params: { id: string } }) => {
-  const product = products.find((product) => product.id === +params.id);
+  const URL = `https://nostorebehind.pythonanywhere.com/ecommerce/products/${params.id}`;
+  const [product, setProduct] = useState<ProductObj | undefined>();
+  const [error, setError] = useState<any | undefined>();
+
+  useEffect(() => {
+    fetch(URL)
+      .then((response) => {
+        if (!response.ok) {
+          throw new Error("Error al cargar los datos");
+        }
+        return response.json();
+      })
+      .then((data: ProductObj | undefined) => {
+        console.log("products", data);
+        setProduct(data);
+      })
+      .catch((error: any | undefined) => setError(error?.message));
+  }, []);
+
+  if (error) {
+    return <div>Error: {error}</div>;
+  }
+
   if (!product) {
     return <h1>Producto no encontrado</h1>;
   }
-  const { name, price, available, sales, description, image } = product;
-  const avalaible = available ? (
-    <p className="text-sm font-semibold text-green-600">Disponible</p>
-  ) : (
-    <p className="text-sm font-semibold text-red-600">Sin Stock</p>
+  const { titulo, price, stock, sells, description, product_images, shop } =
+    product;
+  const available =
+    stock > 0 ? (
+      <p className="text-sm font-semibold text-green-600">Disponible</p>
+    ) : (
+      <p className="text-sm font-semibold text-red-600">Sin Stock</p>
+    );
+
+  const carouselImgs = (
+    <Carousel
+      placeholder={titulo}
+      transition={{ duration: 2 }}
+      className="rounded-xl"
+    >
+      {/* Items */}
+      {product_images.map((image_data) => {
+        return (
+          <Image
+            src={image_data?.image}
+            alt="Product Image"
+            layout="fill"
+            className="h-full w-full rounded-md object-contain object-center"
+          />
+        );
+      })}
+    </Carousel>
   );
+
   return (
-    <article className="h-[calc(100vh-68px)] max-h-[calc(100vh-68px)] w-full overflow-hidden">
+    <article className="mx-auto h-[calc(100vh-68px)] max-h-[calc(100vh-68px)] w-3/4 overflow-hidden">
       <div className="relative h-96 w-full">
-        <Image
-          src={image}
-          alt="Product Image"
-          layout="fill"
-          className="object-cover object-center"
-        />
+        {carouselImgs}
         <div className="absolute left-2 top-2 ">
           <div className="grid h-8 w-8 place-content-center rounded-full bg-white">
-            <ChevronLeft />
+            <Link href={`/products`}>
+              <ChevronLeft />
+            </Link>
           </div>
         </div>
       </div>
-      <div className="relative z-10 -mt-8 h-full w-full rounded-t-xl bg-white px-4 py-5 drop-shadow-xl">
+      <div className="relative z-10 -mt-8 h-1/2 w-full rounded-t-xl bg-white px-4 py-5 drop-shadow-xl">
         <div className="grid grid-cols-6 items-center">
           <div className="col-span-4 self-start">
-            <h1 className="text-xl font-bold">{name}</h1>
-            <p className="text-sm text-primary/70">Nombre Tienda</p>
+            <h1 className="text-xl font-bold">{titulo}</h1>
             <p className="text-sm text-primary">
-              Ventas: <span className="font-semibold">{sales}</span>
+              Ventas: <span className="font-semibold">{sells}</span>
             </p>
           </div>
           <div className="col-span-2 self-baseline justify-self-end">
@@ -97,14 +108,18 @@ const ProductDetail = ({ params }: { params: { id: string } }) => {
               </div>
             </div>
             <div className="pt-2">
-              <div className="text-right">{avalaible}</div>
+              <div className="text-right">{available}</div>
             </div>
           </div>
         </div>
         <div className="my-3 flex flex-col justify-center gap-2">
-          <h1 className="text-md font-semibold">Description</h1>
-
+          <h1 className="text-md font-semibold">Descripción</h1>
           <p className="text-sm text-primary/80">{description}</p>
+          <Link href={`/stores/${shop}`} key={shop} className="text-center">
+            <p className="w-24 rounded-full bg-green-100 text-sm text-primary/70">
+              <strong>Ver Tienda</strong>
+            </p>
+          </Link>
         </div>
         <Separator className="my-2" />
         <div className="flex flex-col justify-center gap-2">
@@ -112,7 +127,9 @@ const ProductDetail = ({ params }: { params: { id: string } }) => {
             <p className="text-lg font-semibold text-primary">Precio Total</p>
             <p className="text-xl font-bold text-primary">${price}</p>
           </div>
-          <Button className="w-full">Agregar al carrito</Button>
+          <Button className="w-1/4 mx-auto">
+            <Link href={`/cart`}>Agregar al carrito</Link>
+          </Button>
         </div>
       </div>
     </article>

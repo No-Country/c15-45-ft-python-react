@@ -24,7 +24,7 @@ const ButtonToggleView = ({ route }: ButtonToggleViewProps) => {
     }
   };
   return (
-    <Button variant="outline" onClick={handleClick}>
+    <Button className="bg-amber-200" variant="outline" onClick={handleClick}>
       {icon} {label}
     </Button>
   );

@@ -17,7 +17,7 @@ class Category(models.Model):
 class Shop(models.Model):
     user = models.OneToOneField(User, on_delete=models.PROTECT, related_name='shop', primary_key=True)
     description = models.TextField(blank=True)
-    shop_name = models.CharField(max_length=16)
+    shop_name = models.CharField(max_length=50)
     logo = models.ImageField(null=True, blank=True, upload_to="images/shops")
     adress_street = models.CharField(max_length=32)
     adress_number = models.CharField(max_length=8)
@@ -33,7 +33,7 @@ class Product(models.Model):
     stock = models.IntegerField(default=0)
     price = models.IntegerField(default=0)
     sells = models.IntegerField(default=0)
-    category = models.ManyToManyField(Category, null=True)
+    category = models.ManyToManyField(Category)
 
 class ProductImages(models.Model):
     image = models.ImageField(null=True, blank=True, upload_to="images/products")
@@ -50,7 +50,7 @@ class OrderRequest(models.Model):
 
 class ShoppingCart(models.Model):
     user = models.OneToOneField(User, on_delete=models.PROTECT, related_name='shopping_cart', primary_key=True)
-    orders = models.ManyToManyField(OrderRequest, related_name='shopping_cart')
+    orders = models.ManyToManyField(OrderRequest, related_name='shopping_cart',null=True,blank=True)
    
     def get_subtotal(self):
         return sum([order.total() for order in self.orders.all()])
@@ -58,6 +58,6 @@ class ShoppingCart(models.Model):
 
 class Purchase(models.Model):
     timestamp = models.DateTimeField(auto_now_add=True)
-    total = models.IntegerField()
+    total = models.IntegerField(null=True,blank=True)
     user = models.ForeignKey(User, on_delete=models.PROTECT, related_name='purchases')
-    orders = models.ManyToManyField(OrderRequest, related_name='purchases')
+    orders = models.ManyToManyField(OrderRequest, related_name='purchases',null=True,blank=True)
