@@ -63,7 +63,6 @@ const ProductDetail = ({ params }: { params: { id: string } }) => {
     >
       {/* Items */}
       {product_images.map((image_data) => {
-        console.log(image_data.image);
         return (
           <Image
             src={image_data?.image}
