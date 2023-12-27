@@ -26,17 +26,17 @@ export default function RootLayout({
       lang="en"
       className="bg-scroll"
       // opacity-50
-      style={{backgroundImage: `url(${backgroundImage.src})`}}
-      >
+      style={{ backgroundImage: `url(${backgroundImage.src})` }}
+    >
       <body
-        className={`h-full bg-gradient-to-r from-transparent from-3% via-indigo-500 via-purple-500 to-pink-500 font-sans ${poppins.variable}bg-slate-100/75`}
+        className={`from-3% h-full bg-gradient-to-r from-transparent via-indigo-500 via-purple-500 to-pink-500 font-sans ${poppins.variable}bg-slate-100/75`}
       >
         <AuthProvider>
           <Navbar />
           {children}
         </AuthProvider>
+        <footer></footer>
       </body>
-      <footer></footer>
     </html>
   );
 }
